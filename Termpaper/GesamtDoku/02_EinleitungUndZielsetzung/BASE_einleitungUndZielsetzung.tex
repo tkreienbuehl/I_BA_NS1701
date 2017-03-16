@@ -1,5 +1,6 @@
 % !TEX root = ../Dokumentation.tex
 \section{Einleitung}
-tbd
-
+In Rechenzentren ist eine Klimakontrolle unumgänglich. Dazu werden diverse automatisierte Systeme verwendet, welche Temperatur und Luftfeuchtigkeit überwachen. Diese Systeme können allerdings selber ebenfalls ausfallen. Ziel dieser Arbeit ist es, die Temperatur mit einem Zweitsystem zu überwachen.\\
+\subsection{Anforderungen}
+Die Temperaturüberwachung soll als Eigenbauversion mit Hilfe eines Raspberry Pi und Temperatursensoren realisiert werden. Die zulässige Höchsttemperatur kann über ein kleines Interface festgelegt und somit bedarfsgerecht angepasst werden. Wird die eingestellte Höchsttemperatur überschritten, wird eine E-Mail ausgelöst, um das Wartungsteam zu informieren. Dabei werden sowohl Temperatur, Zeit und anzahl Sensoren mitgegeben, welche die Höchsttemperatur überschritten haben. Das Versenden mehrerer E-Mails für das gleiche Ereignis soll dabei vermieden werden. Die Sensoren können über eine Platine an das Raspberry Pi angeschlossen werden, damit sich das System skalierbar gestaltet, ohne, dass elektronische Fachkenntnisse vorausgesetzt sind. Es wird dabei von maximal acht Sensoren pro Raspberry Pi ausgegangen.
 \newpage
