@@ -1,0 +1,145 @@
+Current configuration : 2326 bytes
+!
+! Last configuration change at 12:35:06 UTC Sat Aug 20 2016
+!
+version 15.5
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname Luzern
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable secret 9 $9$irFKDKsDuxa.yk$remKvF8XgE.vgsr419OtnI6gXKKDjSlsDdM/WAqUM8A
+!
+no aaa new-model
+ethernet lmi ce
+memory-size iomem 15
+!
+!
+!         
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+license udi pid CISCO1941/K9 sn FCZ1752925H
+license boot module c1900 technology-package securityk9
+!
+!
+!
+redundancy
+!
+!
+!
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Embedded-Service-Engine0/0
+ no ip address
+ shutdown
+!
+interface GigabitEthernet0/0
+ ip address 192.168.10.1 255.255.255.0
+ ip access-group 101 in
+ ip access-group 100 out
+ ip nat inside
+ ip virtual-reassembly in
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/1
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+!
+interface Serial0/0/0
+ bandwidth 128
+ ip address 192.168.1.5 255.255.255.252
+ ip nat inside
+ ip virtual-reassembly in
+ encapsulation ppp
+ clock rate 128000
+!
+interface Serial0/0/1
+ ip address 199.9.9.2 255.255.255.252
+ ip nat outside
+ ip virtual-reassembly in
+ encapsulation ppp
+ clock rate 2000000
+!
+!
+router eigrp 1
+ network 192.168.1.4 0.0.0.3
+ network 192.168.10.0
+ redistribute static
+!
+ip forward-protocol nd
+!
+no ip http server
+no ip http secure-server
+!
+ip nat inside source list 1 interface Serial0/0/1 overload
+ip nat inside source static tcp 192.168.10.10 80 interface Serial0/0/1 80
+ip route 0.0.0.0 0.0.0.0 199.9.9.1
+!
+!
+!
+access-list 1 permit 192.168.0.0 0.0.255.255
+access-list 100 permit tcp any any established
+access-list 100 permit tcp any host 192.168.10.10 eq www
+access-list 100 permit icmp any host 192.168.10.10 echo-reply
+access-list 101 permit tcp any any established
+access-list 101 deny   ip any 192.168.0.0 0.0.255.255
+access-list 101 permit ip any any
+access-list 101 permit icmp host 192.168.10.10 any echo
+!
+control-plane
+!
+!
+!
+line con 0
+ password cisco
+ logging synchronous
+ login
+line aux 0
+line 2
+ no activation-character
+ no exec
+ transport preferred none
+ transport output pad telnet rlogin lapb-ta mop udptn v120 ssh
+ stopbits 1
+line vty 0 4
+ password cisco
+ login
+ transport input none
+!
+scheduler allocate 20000 1000
+!
+end
+

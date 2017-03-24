@@ -1,0 +1,161 @@
+Current configuration : 2054 bytes
+!
+! Last configuration change at 09:20:07 UTC Fri Mar 24 2017
+!
+version 15.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname ISP
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable secret 9 $9$8ZEdoZ5VAF63E.$u1.b2TtWkoiq.QUni134yXX7rxVTioFsLKiK9TEO00s
+!
+no aaa new-model
+memory-size iomem 15
+!
+!
+!
+!         
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+
+
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!         
+cts logging verbose
+!
+!
+license udi pid CISCO1941/K9 sn FCZ1553C37A
+license accept end user agreement
+license boot module c1900 technology-package securityk9
+license boot module c1900 technology-package datak9
+!
+!
+!
+redundancy
+!
+!
+!
+!
+!
+! 
+!
+!
+!
+!
+!
+!         
+!
+!
+!
+interface Loopback0
+ no ip address
+ shutdown
+!
+interface Loopback1
+ ip address 1.1.1.1 255.255.255.255
+!
+interface Loopback2
+ ip address 2.2.2.2 255.255.255.255
+!
+interface Loopback3
+ ip address 3.3.3.3 255.255.255.255
+!
+interface Loopback4
+ ip address 4.4.4.4 255.255.255.255
+!
+interface Embedded-Service-Engine0/0
+ no ip address
+ shutdown
+!         
+interface GigabitEthernet0/0
+ ip address 199.8.8.1 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/1
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+!
+interface Serial0/0/0
+ no ip address
+ shutdown
+ clock rate 2000000
+!
+interface Serial0/0/1
+ bandwidth 128000
+ ip address 199.9.9.1 255.255.255.252
+ encapsulation ppp
+ clock rate 128000
+!
+interface FastEthernet0/1/0
+ no ip address
+!
+interface FastEthernet0/1/1
+ no ip address
+!
+interface FastEthernet0/1/2
+ no ip address
+!
+interface FastEthernet0/1/3
+ no ip address
+!
+interface Vlan1
+ no ip address
+!
+ip forward-protocol nd
+!
+ip http server
+no ip http secure-server
+!
+!
+!
+!
+!         
+control-plane
+!
+!
+!
+line con 0
+ password cisco
+ logging synchronous
+ login
+line aux 0
+line 2
+ no activation-character
+ no exec
+ transport preferred none
+ transport output lat pad telnet rlogin lapb-ta mop udptn v120 ssh
+ stopbits 1
+line vty 0 4
+ password cisco
+ login
+ transport input none
+!
+scheduler allocate 20000 1000
+!
+end 
