@@ -31,7 +31,9 @@ void SensorHandler::doWork() {
 	m_running = true;
 	while (m_running) {
 		//TODO
-		std::cout << "Sensor " << m_SensorID << " is on" << std::endl;
+		char buf[10];
+		std::sprintf(buf, "%u", m_SensorID);
+		std::cout << "Sensor " << buf << " is on" << std::endl;
 		usleep(2000000);
 	}
 }
