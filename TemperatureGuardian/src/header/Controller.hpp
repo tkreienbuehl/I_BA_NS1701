@@ -40,6 +40,8 @@ private:
 	pthread_t m_SensorThreads[MAX_NR_OF_SENSORS];
 	std::map<uint8_t, SensorHandler*> m_SensorPool;
 
+	bool m_running;
+
 };
 
 #endif /* __CONTROLLER_H_ */

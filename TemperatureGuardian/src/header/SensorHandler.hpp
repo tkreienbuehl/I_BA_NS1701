@@ -22,6 +22,8 @@ public:
 
 private:
 
+	void doWork();
+
 	int calcTempFromValue(int rawSensorValue);
 
 	uint8_t m_SensorID;
