@@ -39,7 +39,7 @@ void SensorWatchDog::doWork() {
 
 void SensorWatchDog::readSensorValues() {
 	for (uint8_t i = 0; i< MAX_NR_OF_IO_PINS; i++) {
-		if (i%2 == 0) {
+		if (i%2 != 0) {
 			m_Controller->reportSensorUp(i+1);	//TODO implement correct
 			usleep(10000);
 		}
