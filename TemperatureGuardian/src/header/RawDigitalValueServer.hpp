@@ -13,22 +13,24 @@
 
 class RawDigitalValueServer {
 
-public:
-	typedef std::shared_ptr<RawDigitalValueServer> Ptr;
-
 private:
-	RawDigitalValueServer();
+
+	RawDigitalValueServer();										// Constructor
+	RawDigitalValueServer(RawDigitalValueServer const&) {};			// Copy constructor
+	RawDigitalValueServer& operator=(RawDigitalValueServer const&);	// assignment operator
+
 	~RawDigitalValueServer();
+
 public:
 
-	static RawDigitalValueServer::Ptr getInstance();
+	static RawDigitalValueServer* getInstance();
 	static void releaseInstance();
 
 	int getRawDigitalValue(uint8_t sensorID);
 
 private:
 
-	static RawDigitalValueServer::Ptr m_Instance;
+	static RawDigitalValueServer* m_Instance;
 
 };
 

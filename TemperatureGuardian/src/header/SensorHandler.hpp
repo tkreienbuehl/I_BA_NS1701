@@ -5,6 +5,7 @@
 
 #include <memory>
 #include "RawDigitalValueServer.hpp"
+#include "SensorObserver.hpp"
 
 class SensorHandler {
 public:
@@ -14,10 +15,11 @@ public:
 	SensorHandler(uint8_t sensorID);
 	~SensorHandler();
 
+	void registerSensorObserver(SensorObserver* observer);
+
 	static void* startSensorHandler(void* params);
 
 	void stopSensorHandler();
-	int getTemperatureValue();
 	uint8_t getSensorID();
 
 private:
@@ -26,9 +28,12 @@ private:
 
 	int calcTempFromValue(int rawSensorValue);
 
+	int getTemperature();
+
 	uint8_t m_SensorID;
 	bool m_running;
-	RawDigitalValueServer::Ptr m_RawDigitalValServer;
+	RawDigitalValueServer* m_RawDigitalValServer;
+	SensorObserver* m_SensorObserver;
 
 };
 

@@ -10,11 +10,17 @@
 
 SensorHandler::SensorHandler(uint8_t sensorID)
 	: m_SensorID(sensorID)
-	, m_running(false) {
+	, m_running(false)
+	, m_SensorObserver(NULL) {
+	m_RawDigitalValServer = RawDigitalValueServer::getInstance();
 }
 
 SensorHandler::~SensorHandler() {
+	m_running = false;
+}
 
+void SensorHandler::registerSensorObserver(SensorObserver* observer) {
+	m_SensorObserver = observer;
 }
 
 void* SensorHandler::startSensorHandler(void* params) {
@@ -27,27 +33,27 @@ void SensorHandler::stopSensorHandler() {
 	m_running = false;
 }
 
-void SensorHandler::doWork() {
-	m_running = true;
-	while (m_running) {
-		//TODO
-		char buf[10];
-		std::sprintf(buf, "%u", m_SensorID);
-		std::cout << "Sensor " << buf << " is on" << std::endl;
-		usleep(2000000);
-	}
-}
-
-int SensorHandler::getTemperatureValue() {
-	return 0; //TODO
-}
-
 uint8_t SensorHandler::getSensorID() {
 	return m_SensorID;
 }
 
+void SensorHandler::doWork() {
+	m_running = true;
+	while (m_running) {
+		if (m_SensorObserver != NULL) {
+			m_SensorObserver->reportTemperature(getTemperature(), m_SensorID);
+		}
+		usleep(2000000);
+	}
+}
+
 int SensorHandler::calcTempFromValue(int rawSensorValue) {
 	return rawSensorValue;	//TODO
+}
+
+int SensorHandler::getTemperature() {
+	int rawTempVal = m_RawDigitalValServer->getRawDigitalValue(m_SensorID);
+	return calcTempFromValue(rawTempVal);
 }
 
 

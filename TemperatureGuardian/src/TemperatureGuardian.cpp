@@ -26,11 +26,15 @@ int main() {
 
 	watchDog->stopWatchDog();
 
-	usleep(1000000);
+	usleep(50 * 1000);
+
+	controller.reset();
+
+	usleep(50 * 1000);
 
 	delete watchDog;
 
-	usleep(1000000);
+	usleep(50 * 1000);
 
 	std::cout << "bye bye" << std::endl;
 

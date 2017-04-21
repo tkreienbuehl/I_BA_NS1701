@@ -13,7 +13,13 @@
 	}
 
 	Controller::~Controller() {
-
+		std::map<uint8_t, SensorHandler*>::iterator itr = m_SensorPool.begin();
+		while (itr != m_SensorPool.end()) {
+			removeSensor(itr->second->getSensorID());
+			usleep(1000);
+			itr++;
+		}
+		usleep(1000 * 1000);
 	}
 
 	void Controller::startController() {
@@ -21,18 +27,28 @@
 		//Aktueller auto-off;
 		uint16_t count = 0;
 		while (m_running) {
-			//TODO
-			if (count >= 25) {
+			//TODO remove auto off if productive
+			if (count >= 10) {
 				m_running = false;
 			}
-			std::cout << "Controller runs" << std::endl;
+			std::cout << "Controller is running" << std::endl;
 			count++;
-			usleep(1000000);
+			usleep(10000000);
 		}
 	}
 
 	void Controller::stopController() {
 		m_running = false;
+	}
+
+	void Controller::reportTemperature(int temperature, uint8_t sensorID) {
+		if (m_running) {
+			char buf[10], tempBuf[10];
+			std::sprintf(buf, "%u", sensorID);
+			std::sprintf(tempBuf, "%i", temperature);
+			std::cout << "Sensor " << buf << " is on and reportet: " << tempBuf << "°C"  << std::endl;
+			//TODO implement controlling for Temperature
+		}
 	}
 
 	void Controller::reportSensorUp(uint8_t sensorPos) {
@@ -51,6 +67,7 @@
 
 	void Controller::addSensor(uint8_t sensorPos) {
 		SensorHandler* sensor = new SensorHandler(sensorPos);
+		sensor->registerSensorObserver(this);
 		m_SensorPool.insert(std::make_pair(sensorPos, sensor));
 		pthread_create(&m_SensorThreads[sensorPos], NULL, SensorHandler::startSensorHandler, sensor);
 	}
@@ -61,6 +78,7 @@
 			SensorHandler* sensor = itr->second;
 			m_SensorPool.erase(itr);
 			sensor->stopSensorHandler();
+			usleep(5000);
 			delete sensor;
 		}
 	}

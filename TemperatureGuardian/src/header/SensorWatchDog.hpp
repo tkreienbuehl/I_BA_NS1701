@@ -22,7 +22,7 @@ private:
 	void readSensorValues();
 
 	Controller::Ptr m_Controller;
-	RawDigitalValueServer::Ptr m_RawDigitalValServer;
+	RawDigitalValueServer* m_RawDigitalValServer;
 	bool m_running;
 	const uint8_t MAX_NR_OF_IO_PINS;
 

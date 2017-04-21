@@ -14,10 +14,11 @@
 #include <map>
 #include <pthread.h>
 #include "SensorHandler.hpp"
+#include "SensorObserver.hpp"
 
 #define MAX_NR_OF_SENSORS 8
 
-class Controller {
+class Controller : public SensorObserver {
 
 public:
 
@@ -28,6 +29,8 @@ public:
 
 	void startController();
 	void stopController();
+
+	void reportTemperature(int temperature, uint8_t sensorID);
 
 	void reportSensorUp(uint8_t sensorPos);
 	void reportSensorDown(uint8_t sensorPos);
