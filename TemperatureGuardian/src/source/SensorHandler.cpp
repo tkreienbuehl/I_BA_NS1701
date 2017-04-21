@@ -26,6 +26,7 @@ void SensorHandler::registerSensorObserver(SensorObserver* observer) {
 void* SensorHandler::startSensorHandler(void* params) {
 	SensorHandler* me = static_cast<SensorHandler*>(params);
 	me->doWork();
+	pthread_exit(NULL);
 	return me;
 }
 

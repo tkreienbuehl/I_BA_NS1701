@@ -22,6 +22,7 @@ SensorWatchDog::~SensorWatchDog() {
 void* SensorWatchDog::startWatchDog(void* params) {
 	SensorWatchDog* me = static_cast<SensorWatchDog*>(params);
 	me->doWork();
+	pthread_exit(NULL);
 	return me;
 }
 
