@@ -9,8 +9,11 @@
 #ifndef HEADER_SENSOROBSERVER_HPP_
 #define HEADER_SENSOROBSERVER_HPP_
 
+#include <stdint.h>
+
 //SensorObserver Interface
 class SensorObserver {
+
 public:
 
 	virtual ~SensorObserver() {};

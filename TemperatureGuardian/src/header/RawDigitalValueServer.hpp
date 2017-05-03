@@ -9,15 +9,17 @@
 #ifndef HEADER_RAWDIGITALVALUESERVER_HPP_
 #define HEADER_RAWDIGITALVALUESERVER_HPP_
 
-#include <memory>
+#include <unistd.h>
+#include <stdint.h>
+#include "SPIDataHandler.hpp"
 
 class RawDigitalValueServer {
 
 private:
 
 	RawDigitalValueServer();										// Constructor
-	RawDigitalValueServer(RawDigitalValueServer const&) {};			// Copy constructor
-	RawDigitalValueServer& operator=(RawDigitalValueServer const&);	// assignment operator
+	RawDigitalValueServer(RawDigitalValueServer const&);			// Copy constructor not implemented!
+	RawDigitalValueServer& operator=(RawDigitalValueServer const&);	// assignment operator not implemented!
 
 	~RawDigitalValueServer();
 
@@ -31,6 +33,7 @@ public:
 private:
 
 	static RawDigitalValueServer* m_Instance;
+	SPIDataHandler* m_DataHandler;
 
 };
 

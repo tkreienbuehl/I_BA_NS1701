@@ -10,19 +10,18 @@
 #ifndef __CONTROLLER_H_
 #define __CONTROLLER_H_
 
-#include <memory>
 #include <map>
 #include <pthread.h>
+#include <stdint.h>
 #include "SensorHandler.hpp"
 #include "SensorObserver.hpp"
+#include "XMLWriter.hpp"
 
 #define MAX_NR_OF_SENSORS 8
 
 class Controller : public SensorObserver {
 
 public:
-
-	typedef std::shared_ptr<Controller> Ptr;
 
 	Controller();
 	~Controller();
@@ -42,8 +41,10 @@ private:
 
 	pthread_t m_SensorThreads[MAX_NR_OF_SENSORS];
 	std::map<uint8_t, SensorHandler*> m_SensorPool;
-
 	bool m_running;
+	XMLWriter* m_xmlWriter;
+
+
 
 };
 

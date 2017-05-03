@@ -3,14 +3,11 @@
 #ifndef __SENSOR_HANDLER_H_
 #define __SENSOR_HANDLER_H_
 
-#include <memory>
 #include "RawDigitalValueServer.hpp"
 #include "SensorObserver.hpp"
 
 class SensorHandler {
 public:
-
-	typedef std::shared_ptr<SensorHandler> Ptr;
 
 	SensorHandler(uint8_t sensorID);
 	~SensorHandler();

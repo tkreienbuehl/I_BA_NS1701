@@ -5,11 +5,12 @@
 
 #include "Controller.hpp"
 #include "RawDigitalValueServer.hpp"
+#include <stdint.h>
 
 class SensorWatchDog {
 
 public:
-	SensorWatchDog(Controller::Ptr controller);
+	SensorWatchDog(Controller* controller);
 	~SensorWatchDog();
 
 	static void* startWatchDog(void* params);
@@ -21,10 +22,10 @@ private:
 	void doWork();
 	void readSensorValues();
 
-	Controller::Ptr m_Controller;
 	RawDigitalValueServer* m_RawDigitalValServer;
-	bool m_running;
 	const uint8_t MAX_NR_OF_IO_PINS;
+	bool m_running;
+	Controller* m_Controller;
 
 };
 

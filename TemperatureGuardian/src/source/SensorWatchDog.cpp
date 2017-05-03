@@ -8,7 +8,7 @@
 #include <iostream>
 #include "../header/SensorWatchDog.hpp"
 
-SensorWatchDog::SensorWatchDog(Controller::Ptr controller)
+SensorWatchDog::SensorWatchDog(Controller* controller)
 	: MAX_NR_OF_IO_PINS(8)
 	, m_running(false)
 	, m_Controller(controller) {
@@ -41,8 +41,8 @@ void SensorWatchDog::doWork() {
 
 void SensorWatchDog::readSensorValues() {
 	for (uint8_t i = 0; i< MAX_NR_OF_IO_PINS; i++) {
-		if (m_RawDigitalValServer->getRawDigitalValue(i+1) > 15) {	//TODO: filter invalid sensor data (if needed)
-			m_Controller->reportSensorUp(i+1);
+		if (m_RawDigitalValServer->getRawDigitalValue(i) > 15) {	//TODO: filter invalid sensor data (if needed)
+			m_Controller->reportSensorUp(i);
 			usleep(10000);
 		}
 	}

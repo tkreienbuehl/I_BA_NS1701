@@ -9,14 +9,15 @@
 #include <iostream>
 #include <pthread.h>
 #include <unistd.h>
-#include "header/Controller.hpp"
-#include "header/SensorWatchDog.hpp"
+#include <stdint.h>
+#include "../header/Controller.hpp"
+#include "../header/SensorWatchDog.hpp"
 
 int main() {
 	std::cout << "TemperatureGuardian gestartet" << std::endl; // prints TemperatureGuardian
 	pthread_t thread;
 
-	Controller::Ptr controller = std::make_shared<Controller>();
+	Controller* controller = new Controller();
 
 	SensorWatchDog* watchDog = new SensorWatchDog(controller);
 
@@ -28,7 +29,7 @@ int main() {
 
 	usleep(50 * 1000);
 
-	controller.reset();
+	delete controller;
 
 	usleep(50 * 1000);
 
