@@ -23,7 +23,6 @@ int SPIConnectionHandler::openPort (int spiDevice) {
 	int status_value = -1;
 	int *spi_cs_fd;
 
-
 	//----- SET SPI MODE -----
 	//SPI_MODE_0 (0,0) 	CPOL = 0, CPHA = 0, Clock idle low, data is clocked in on rising edge, output data (change) on falling edge
 	//SPI_MODE_1 (0,1) 	CPOL = 0, CPHA = 1, Clock idle low, data is clocked in on falling edge, output data (change) on rising edge
@@ -38,16 +37,20 @@ int SPIConnectionHandler::openPort (int spiDevice) {
 	m_Speed = 1000000;		//1000000 = 1MHz (1uS per bit)
 
 
-	if (spiDevice)
+	if (spiDevice == 1) {
 		spi_cs_fd = &m_cs1Fd;
-	else
+	}
+	else {
 		spi_cs_fd = &m_cs0Fd;
+	}
 
 
-	if (spiDevice)
+	if (spiDevice) {
 		*spi_cs_fd = open(std::string("/dev/spidev0.1").c_str(), O_RDWR);
-	else
+	}
+	else {
 		*spi_cs_fd = open(std::string("/dev/spidev0.0").c_str(), O_RDWR);
+	}
 
 	if (*spi_cs_fd < 0) {
 		perror("Error - Could not open SPI device");
@@ -94,12 +97,14 @@ int SPIConnectionHandler::openPort (int spiDevice) {
 
 int SPIConnectionHandler::closePort (int spiDevice) {
 	int status_value = -1;
-	int *spi_cs_fd;
+	int* spi_cs_fd;
 
-	if (spiDevice)
+	if (spiDevice) {
 		spi_cs_fd = &m_cs1Fd;
-	else
+	}
+	else {
 		spi_cs_fd = &m_cs0Fd;
+	}
 
 	status_value = close(*spi_cs_fd);
 	if(status_value < 0) {

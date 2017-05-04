@@ -32,11 +32,12 @@ void RawDigitalValueServer::releaseInstance() {
 int RawDigitalValueServer::getRawDigitalValue(uint8_t sensorID) {
 
     int a2dVal = 0;
-    int a2dChannel = 0;
+    int a2dChannel = sensorID;
     unsigned char data[3];
     char buf[3];
+    sprintf(buf, "%u", a2dChannel);
 
-    for  (uint8_t i = 0; i < 13; i++ ) {
+    for  (uint8_t i = 0; i < 10; i++ ) {
         data[0] = 1;  //  first byte transmitted -> start bit
         data[1] = 0b10000000 | ((a2dChannel & 7) << 4); // second byte transmitted -> (SGL/DIF = 1, D2=D1=D0=0)
         data[2] = 0; // third byte transmitted....don't care
@@ -48,9 +49,7 @@ int RawDigitalValueServer::getRawDigitalValue(uint8_t sensorID) {
         a2dVal |= (data[2] & 0xff);
         usleep(5000);
 
-        sprintf(buf, "%u", i);
         std::cout << "The Result of channel " << buf << " is: " << a2dVal << std::endl;
-        a2dChannel = i;
     }
     std::cout << "Ende" << std::endl;
 	//TODO: replace mock with real implementation

@@ -33,7 +33,7 @@ void SensorWatchDog::stopWatchDog() {
 void SensorWatchDog::doWork() {
 	m_running = true;
 	while (m_running) {
-		std::cout << "watchdog running" << std::endl;
+		//std::cout << "watchdog running" << std::endl;
 		readSensorValues();
 		usleep(20 * 1000 * 1000);	//wait 20s
 	}
