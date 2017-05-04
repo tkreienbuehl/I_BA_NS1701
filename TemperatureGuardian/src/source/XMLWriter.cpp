@@ -44,3 +44,13 @@ void XMLWriter::writeSensorData(uint8_t sensorNr, int value) {
 	}
 }
 
+void XMLWriter::removeSensor(uint8_t sensorNr) {
+	pugi::xml_node node = m_xmlDocument.first_child();
+	node = node.find_child_by_attribute("id", "SensorValues");
+	char str[10];
+	sprintf(str, "%i", sensorNr);
+	if (node.find_child_by_attribute("id", str)) {
+		node.remove_child(node.find_child_by_attribute("id", str));
+		m_xmlDocument.save_file("sensordata.xml");
+	}
+}

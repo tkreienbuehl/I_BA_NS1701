@@ -36,8 +36,10 @@ int RawDigitalValueServer::getRawDigitalValue(uint8_t sensorID) {
     unsigned char data[3];
     char buf[3];
     sprintf(buf, "%u", a2dChannel);
+    std::vector<int> values;
+    uint8_t vectorSize = 11;
 
-    for  (uint8_t i = 0; i < 10; i++ ) {
+    for  (uint8_t i = 0; i < vectorSize; i++ ) {
         data[0] = 1;  //  first byte transmitted -> start bit
         data[1] = 0b10000000 | ((a2dChannel & 7) << 4); // second byte transmitted -> (SGL/DIF = 1, D2=D1=D0=0)
         data[2] = 0; // third byte transmitted....don't care
@@ -49,35 +51,10 @@ int RawDigitalValueServer::getRawDigitalValue(uint8_t sensorID) {
         a2dVal |= (data[2] & 0xff);
         usleep(5000);
 
-        std::cout << "The Result of channel " << buf << " is: " << a2dVal << std::endl;
+        values.push_back(a2dVal);
     }
-    std::cout << "Ende" << std::endl;
-	//TODO: replace mock with real implementation
-	if (sensorID == 1) {
-		return 0;
-	}
-	if (sensorID == 2) {
-		return 42;
-	}
-	if (sensorID == 3) {
-		return 18;
-	}
-	if (sensorID == 4) {
-		return 38;
-	}
-	if (sensorID == 5) {
-		return 0;
-	}
-	if (sensorID == 6) {
-		return 6;
-	}
-	if (sensorID == 7) {
-		return 2;
-	}
-	if (sensorID == 8) {
-		return 44;
-	}
-	return 0;
+    std::sort(values.begin(), values.end());
+    return values.at(vectorSize >> 1);
 }
 
 

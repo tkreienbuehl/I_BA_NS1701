@@ -33,7 +33,6 @@ void SensorWatchDog::stopWatchDog() {
 void SensorWatchDog::doWork() {
 	m_running = true;
 	while (m_running) {
-		//std::cout << "watchdog running" << std::endl;
 		readSensorValues();
 		usleep(20 * 1000 * 1000);	//wait 20s
 	}
@@ -41,8 +40,12 @@ void SensorWatchDog::doWork() {
 
 void SensorWatchDog::readSensorValues() {
 	for (uint8_t i = 0; i< MAX_NR_OF_IO_PINS; i++) {
-		if (m_RawDigitalValServer->getRawDigitalValue(i) > 15) {	//TODO: filter invalid sensor data (if needed)
+		if (m_RawDigitalValServer->getRawDigitalValue(i) > 200) {
 			m_Controller->reportSensorUp(i);
+			usleep(10000);
+		}
+		else {
+			m_Controller->reportSensorDown(i);
 			usleep(10000);
 		}
 	}

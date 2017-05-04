@@ -25,6 +25,8 @@ public:
 
 	void writeSensorData(uint8_t sensorNr, int value);
 
+	void removeSensor(uint8_t sensorNr);
+
 private:
 
 	pugi::xml_document m_xmlDocument;
