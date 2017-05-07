@@ -10,6 +10,7 @@ RawDigitalValueServer* RawDigitalValueServer::m_Instance = NULL;
 
 RawDigitalValueServer::RawDigitalValueServer()
 	: m_DataHandler(new SPIDataHandler()) {
+	pthread_mutex_init(&m_mutex, NULL);
 }
 
 RawDigitalValueServer::~RawDigitalValueServer() {
@@ -31,6 +32,7 @@ void RawDigitalValueServer::releaseInstance() {
 
 int RawDigitalValueServer::getRawDigitalValue(uint8_t sensorID) {
 
+	pthread_mutex_lock(&m_mutex);
     int a2dVal = 0;
     int a2dChannel = sensorID;
     unsigned char data[3];
@@ -49,11 +51,12 @@ int RawDigitalValueServer::getRawDigitalValue(uint8_t sensorID) {
         a2dVal = 0;
         a2dVal = (data[1] << 8) & 0b1100000000; //merge data[1] & data[2] to get result
         a2dVal |= (data[2] & 0xff);
-        usleep(5000);
+        usleep(100 * 1000);
 
         values.push_back(a2dVal);
     }
     std::sort(values.begin(), values.end());
+    pthread_mutex_unlock(&m_mutex);
     return values.at(vectorSize >> 1);
 }
 

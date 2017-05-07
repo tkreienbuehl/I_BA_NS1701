@@ -19,11 +19,13 @@ all: $(SOURCE)TemperatureGuardian.cpp
 
 	$(HEAD) $(SOURCE)TemperatureGuardian.cpp
 
-	$(HEAD) $(SOURCE)XMLWriter.cpp
+	$(HEAD) $(SOURCE)XMLHandler.cpp
 
 	$(HEAD) $(SOURCE)pugixml.cpp 
 
-	g++ -o TemperatureGuardian SensorHandler.o SPIConnectionHandler.o SPIDataHandler.o Controller.o RawDigitalValueServer.o SensorWatchDog.o TemperatureGuardian.o pugixml.o XMLWriter.o $(LIBS)
+	$(HEAD) $(SOURCE)EMailSender.cpp
+
+	g++ -o TemperatureGuardian SensorHandler.o SPIConnectionHandler.o SPIDataHandler.o Controller.o RawDigitalValueServer.o SensorWatchDog.o TemperatureGuardian.o pugixml.o XMLHandler.o EMailSender.o $(LIBS)
 
 #rm *.o
 

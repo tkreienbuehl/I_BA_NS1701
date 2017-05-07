@@ -44,7 +44,7 @@ void SensorHandler::doWork() {
 		if (m_SensorObserver != NULL) {
 			m_SensorObserver->reportTemperature(getTemperature(), m_SensorID);
 		}
-		usleep(2000000);
+		usleep(5 * 1000 * 1000);
 	}
 }
 

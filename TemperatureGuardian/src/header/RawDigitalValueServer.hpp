@@ -36,6 +36,7 @@ private:
 
 	static RawDigitalValueServer* m_Instance;
 	SPIDataHandler* m_DataHandler;
+	pthread_mutex_t m_mutex;
 
 };
 

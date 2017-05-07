@@ -1,8 +1,19 @@
 <?xml version="1.0"?>
 <header>
 	<SensorValues id="SensorValues">
-		<Sensor id="2" value="42" />
-		<Sensor id="3" value="18" />
-		<Sensor id="4" value="38" />
 	</SensorValues>
+	<LockedSensors id="LockedSensors">
+		<Sensor id="1" />
+		<Sensor id="3" />
+		<Sensor id="5" />
+		<Sensor id="7" />
+	</LockedSensors>
+	<Email id="EmailSettings">
+		<Setting id="SourceAddress" value="temperatur@temperatur.ch" />
+		<Setting id="DestinationAddress" value="test@example.ch" />
+	</Email>
+	<Settings id="Settings">
+		<Setting id="TemperatureLimit" value="40" />
+		<Setting id="AlertState" value="0" />
+	</Settings>
 </header>
