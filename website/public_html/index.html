@@ -1,0 +1,238 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Temperature Guardian</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <script src="../justgage-1.2.2/raphael-2.1.4.min.js"></script>
+        <script src="../justgage-1.2.2/justgage.js"></script>
+
+        <style>
+
+            #s1, #s2, #s3, #s4, #s5, #s6, #s7, #s8{
+                display: inline-block;
+                float: left;
+            }
+
+            .t1, .t2, .t3, .t4, .t5, .t6, .t7, .t8{
+                text-align: center;
+                padding: 20px;
+            }
+
+            p {
+                //width: 450px;
+                margin: 2em auto;
+                text: align-center;
+            }
+            
+            .container{
+                float: left;
+                text: align-center;
+                padding: 10px;
+            }
+
+        </style>
+
+    </head>
+    <body>
+        <div id="p">Temperaturüberprüfung mittels Sensoren<br></div>	  	  
+       
+        <div class="container">
+            <div id="s1"></div>
+            <div class="t1">inaktiv</div>
+        </div>
+        
+        <div class="container">
+            <div id="s2"></div>
+            <div class="t2">inaktiv</div>
+        </div>
+        
+        <div class="container">        
+            <div id="s3"></div>
+            <div class="t3">inaktiv</div>
+        </div>
+        
+        <div class="container">
+            <div id="s4"></div>
+            <div class="t4">inaktiv</div>
+        </div>
+        
+        <div class="container">        
+            <div id="s5"></div>
+            <div class="t5">inaktiv</div>    
+        </div>
+        
+        <div class="container">        
+            <div id="s6"></div>
+            <div class="t6">inaktiv</div>
+        </div>
+        
+        <div class="container">        
+            <div id="s7"></div>
+            <div class="t7">inaktiv</div>
+        </div>
+        
+        <div class="container">        
+            <div id="s8"></div>
+            <div class="t8">inaktiv</div>
+        </div>        
+
+        <script>
+            const valueArray = new Array(8);
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    readXMLNode(this);
+                }
+            }
+            xhttp.open("GET", "sensordata.xml", true);
+            xhttp.send();
+
+            function readXMLNode(xml) {
+                var xmlDoc = xml.responseXML;
+                //    var list = document.getElementsByClassName('container')[0].getElementsByClassName('t1'[0]);
+                //    log.console(list);
+                //document.getElementById("demo").innerHTML = xmlDoc.getElementsByTagName("SensorValues")[0].getElementsByTagName("Sensor")[0].getAttribute("value");
+                for (var i = 0, len = valueArray.length; i < len; i++) {
+                    valueArray[i] = xmlDoc.getElementsByTagName("SensorValues")[0].getElementsByTagName("Sensor")[i].getAttribute("value");
+                }
+            }
+
+            document.addEventListener("DOMContentLoaded", function (event) {
+                var s1, s2, s3, s4, s5, s6, s7, s8;
+
+                var s1 = new JustGage({
+                    id: "s1",
+                    value: 0,
+                    min: 0,
+                    max: 75,
+                    title: "Sensor 1",
+                    hideMinMax: true
+                });
+
+                var s2 = new JustGage({
+                    id: "s2",
+                    value: 0,
+                    min: 0,
+                    max: 75,
+                    title: "Sensor 2",
+                    hideMinMax: true
+                });
+
+                var s3 = new JustGage({
+                    id: "s3",
+                    value: 0,
+                    min: 0,
+                    max: 75,
+                    title: "Sensor 3",
+                    hideMinMax: true
+                });
+
+                var s4 = new JustGage({
+                    id: "s4",
+                    value: 0,
+                    min: 0,
+                    max: 75,
+                    title: "Sensor 4",
+                    hideMinMax: true
+                });
+
+
+                var s5 = new JustGage({
+                    id: "s5",
+                    value: 0,
+                    min: 0,
+                    max: 75,
+                    title: "Sensor 5",
+                    hideMinMax: true
+                });
+
+                var s6 = new JustGage({
+                    id: "s6",
+                    value: 0,
+                    min: 0,
+                    max: 75,
+                    title: "Sensor 6",
+                    hideMinMax: true
+                });
+
+                var s7 = new JustGage({
+                    id: "s7",
+                    value: 0,
+                    min: 0,
+                    max: 75,
+                    title: "Sensor 7",
+                    hideMinMax: true
+                });
+
+                var s8 = new JustGage({
+                    id: "s8",
+                    value: 0,
+                    min: 0,
+                    max: 75,
+                    title: "Sensor 8",
+                    hideMinMax: true
+                });
+
+
+                setInterval(function () {
+                    if (valueArray[0] != null) {
+                        s1.refresh(valueArray[0]);
+                        document.getElementsByClassName('container')[0].getElementsByClassName('t1')[0].innerHTML = 'aktiv';
+                    } else {
+                        document.getElementsByClassName('container')[0].getElementsByClassName('t1')[0].innerHTML = 'inaktiv';
+                    }
+                    
+                    if (valueArray[1] != null) {
+                        s2.refresh(valueArray[1]);
+                        document.getElementsByClassName('container')[1].getElementsByClassName('t2')[0].innerHTML = 'aktiv';
+                    } else {
+                        document.getElementsByClassName('container')[1].getElementsByClassName('t2')[0].innerHTML = 'inaktiv';
+                    }
+                    
+                    if (valueArray[2] != null) {
+                        s3.refresh(valueArray[1]);
+                        document.getElementsByClassName('container')[2].getElementsByClassName('t3')[0].innerHTML = 'aktiv';
+                    } else {
+                        document.getElementsByClassName('container')[2].getElementsByClassName('t3')[0].innerHTML = 'inaktiv';
+                    }                    
+
+                    if (valueArray[3] != null) {
+                        s4.refresh(valueArray[1]);
+                        document.getElementsByClassName('container')[3].getElementsByClassName('t4')[0].innerHTML = 'aktiv';
+                    } else {
+                        document.getElementsByClassName('container')[3].getElementsByClassName('t4')[0].innerHTML = 'inaktiv';
+                    }
+                    
+                    if (valueArray[4] != null) {
+                        s5.refresh(valueArray[1]);
+                        document.getElementsByClassName('container')[4].getElementsByClassName('t5')[0].innerHTML = 'aktiv';
+                    } else {
+                        document.getElementsByClassName('container')[4].getElementsByClassName('t5')[0].innerHTML = 'inaktiv';
+                    }
+                   
+                    if (valueArray[5] != null) {
+                        s6.refresh(valueArray[1]);
+                        document.getElementsByClassName('container')[5].getElementsByClassName('t6')[0].innerHTML = 'aktiv';
+                    } else {
+                        document.getElementsByClassName('container')[5].getElementsByClassName('t6')[0].innerHTML = 'inaktiv';
+                    }
+                    
+                    if (valueArray[6] != null) {
+                        s7.refresh(valueArray[1]);
+                        document.getElementsByClassName('container')[6].getElementsByClassName('t7')[0].innerHTML = 'aktiv';
+                    } else {
+                        document.getElementsByClassName('container')[6].getElementsByClassName('t7')[0].innerHTML = 'inaktiv';
+                    }
+                    
+                    if (valueArray[7] != null) {
+                        s8.refresh(valueArray[1]);
+                        document.getElementsByClassName('container')[7].getElementsByClassName('t8')[0].innerHTML = 'aktiv';
+                    } else {
+                        document.getElementsByClassName('container')[7].getElementsByClassName('t8')[0].innerHTML = 'inaktiv';
+                    }                    
+                }, 1000);
+
+            });
+        </script>
+    </body>
+</html>
