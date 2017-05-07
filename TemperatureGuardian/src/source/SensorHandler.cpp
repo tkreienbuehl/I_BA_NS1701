@@ -49,7 +49,7 @@ void SensorHandler::doWork() {
 }
 
 int SensorHandler::calcTempFromValue(int rawSensorValue) {
-	return rawSensorValue;	//TODO
+	return static_cast<int>(static_cast<float>((rawSensorValue * 3.3 / 1024) - 0.5) * 100);
 }
 
 int SensorHandler::getTemperature() {

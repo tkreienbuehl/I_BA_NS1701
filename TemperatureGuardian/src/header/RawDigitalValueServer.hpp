@@ -12,6 +12,8 @@
 #include <unistd.h>
 #include <stdint.h>
 #include "SPIDataHandler.hpp"
+#include <vector>
+#include <algorithm>
 
 class RawDigitalValueServer {
 

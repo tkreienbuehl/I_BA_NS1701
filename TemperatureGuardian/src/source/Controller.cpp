@@ -28,15 +28,7 @@ Controller::~Controller() {
 
 void Controller::startController() {
 	m_running = true;
-	//Aktueller auto-off;
-	//uint16_t count = 0;
 	while (m_running) {
-		//TODO remove auto off if productive
-		//if (count >= 10) {
-		//	m_running = false;
-		//}
-		//std::cout << "Controller is running" << std::endl;
-		//count++;
 		usleep(10000000);
 	}
 }
@@ -50,7 +42,7 @@ void Controller::reportTemperature(int temperature, uint8_t sensorID) {
 		char buf[10], tempBuf[10];
 		sprintf(buf, "%u", sensorID);
 		sprintf(tempBuf, "%i", temperature);
-		//std::cout << "Sensor " << buf << " is on and reportet: " << tempBuf << "°C"  << std::endl;
+		std::cout << "Sensor " << buf << " is on and reportet: " << tempBuf << "°C"  << std::endl;
 		m_xmlWriter->writeSensorData(sensorID, temperature);
 		//TODO implement controlling for Temperature
 	}
@@ -83,6 +75,7 @@ void Controller::removeSensor(uint8_t sensorID) {
 		SensorHandler* sensor = itr->second;
 		m_SensorPool.erase(itr);
 		sensor->stopSensorHandler();
+		m_xmlWriter->removeSensor(sensorID);
 		usleep(5000);
 		delete sensor;
 	}
