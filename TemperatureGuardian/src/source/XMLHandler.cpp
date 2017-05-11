@@ -80,7 +80,7 @@ bool XMLHandler::getAlertState() {
 	return node.attribute("value").as_bool();
 }
 
-void XMLHandler::setAlertState() {
+void XMLHandler::setAlertOccured() {
 	pugi::xml_node node = m_xmlDocument.first_child();
 	node = node.find_child_by_attribute("id", "Settings");
 	node = node.find_child_by_attribute("id", "AlertState");

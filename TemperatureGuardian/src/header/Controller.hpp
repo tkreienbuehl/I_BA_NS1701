@@ -19,8 +19,6 @@
 #include "XMLHandler.hpp"
 #include "LogMsgWriter.hpp"
 
-#define MAX_NR_OF_SENSORS 8
-
 class Controller : public SensorObserver {
 
 public:
@@ -43,7 +41,7 @@ private:
 
 	void reportTemperaturLimitReached(uint8_t sensorID);
 
-	pthread_t m_SensorThreads[MAX_NR_OF_SENSORS];
+	std::map<uint8_t, pthread_t> m_threadsMap;
 	std::map<uint8_t, SensorHandler*> m_SensorPool;
 	bool m_running;
 	XMLHandler* m_xmlHandler;

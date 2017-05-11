@@ -50,10 +50,10 @@ public:
 	bool getAlertState();
 
 	/**
-	 * Method to set in xlm that
+	 * Method to set in xml that
 	 * the limit has been reached an a email is sent
 	 */
-	void setAlertState();
+	void setAlertOccured();
 
 private:
 

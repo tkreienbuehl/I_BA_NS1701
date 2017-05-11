@@ -82,7 +82,9 @@ void Controller::addSensor(uint8_t sensorPos) {
 	SensorHandler* sensor = new SensorHandler(sensorPos);
 	sensor->registerSensorObserver(this);
 	m_SensorPool.insert(std::make_pair(sensorPos, sensor));
-	pthread_create(&m_SensorThreads[sensorPos], NULL, SensorHandler::startSensorHandler, sensor);
+	pthread_t thread;
+	m_threadsMap.insert(std::make_pair(sensorPos, thread));
+	pthread_create(&m_threadsMap.at(sensorPos), NULL, SensorHandler::startSensorHandler, sensor);
 	char buf[120];
 	sprintf(buf,"New sensor found and activated. Sensor ID = %u", sensorPos);
 	std::string msg = buf;
@@ -114,6 +116,6 @@ void Controller::reportTemperaturLimitReached(uint8_t sensorID) {
 	sprintf(buf, "Der Sensor %u hat eine zu hohe Temperatur registriert!", sensorID);
 	m_MailSender->setMessageText(buf);
 	m_MailSender->sendEmail();
-	m_xmlHandler->setAlertState();
+	m_xmlHandler->setAlertOccured();
 	m_LogMsgWriter->writeLogMsg("Alert message sent");
 }

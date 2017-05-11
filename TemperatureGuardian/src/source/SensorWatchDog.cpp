@@ -9,7 +9,7 @@
 #include "../header/SensorWatchDog.hpp"
 
 SensorWatchDog::SensorWatchDog(Controller* controller)
-	: MAX_NR_OF_IO_PINS(8)
+	: MAX_NR_OF_SENSORS(8)
 	, m_running(false)
 	, m_Controller(controller) {
 	m_RawDigitalValServer = RawDigitalValueServer::getInstance();
@@ -39,7 +39,7 @@ void SensorWatchDog::doWork() {
 }
 
 void SensorWatchDog::readSensorValues() {
-	for (uint8_t i = 0; i< MAX_NR_OF_IO_PINS; i++) {
+	for (uint8_t i = 0; i< MAX_NR_OF_SENSORS; i++) {
 		if (m_RawDigitalValServer->getRawDigitalValue(i) > 200) {
 			m_Controller->reportSensorUp(i);
 			usleep(10000);
