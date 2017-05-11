@@ -8,16 +8,15 @@ Folgende Installation \& Grundkonfigurationen müssen zu Beginn am RaspberryPi v
 \subsubsection{Software}
 Die 32GB grosse SD-Karte welche man für das Raspberry benötigt, wird zu Beginn formatiert um danach eine saubere Installation des Betriebssystems durchzuführen. Als OS wird die Version 2017-04-10 raspbian-jessie verwedent, dieses Betriebssystem wird von diversen Webseiten und Anleitungen empfohlen. Es hat eine graphische Oberfläche und bietet bereits vorinstallierte Programme.
 
-
 \subsubsection{Konfiguration}
 Nach der Installation der Software kann das Raspberry mit Maus und Tastatur an einen Monitor angeschlossen werden. Sobald das Raspberry mit Strom versorgt wird, startet der Boot-Vorgang.
 Nun müssen alle wichtigen Grundkonfigurationen wie folgt vorgenommen werden.
 
-Tastatur: Deutsch(Schweiz)
-Username: TemperatureSensorPi\\
+Tastatur: Deutsch(Schweiz)\\
+Username: pi\\
 Passwort: temperatur2017\\
 Inteface SPI: enable\\
-Netzwerk: <tbd>
+Netzwerk: aktuell ist die IP-Adresse fix mit 10.25.0.7 konfiguriert
 
 \subsubsection{Webserver}
 Auf dem Raspberry wird zusätzlich ein Webserver bereitgestellt, damit die die Temperaturausgabe direkt im lokalen Netz betrachtet werden kann. Als Webserver wurde Apache2 installiert.
@@ -25,9 +24,7 @@ Auf dem Raspberry wird zusätzlich ein Webserver bereitgestellt, damit die die T
 
 \subsection{Softwaredesing}
 
-Im untenstehenden Klassendiagramm sind alle erstellten Klassen ersichtlich.
-Die Klasse SensorWatchDog ist dafür zuständig um die angeschlossenen Sensoren zu prüfen, wird ein neuer Sensor angeschlossen, so wird dieser mit der Methode addSensor in der Klasse Controller hinzugefüg. Die Klasse SensorHandler überprüft und berechnet nun laufend die Temperaturwerte. Der Wert des Sensors wird schlussendlich mittels XMLWriter in das File sensordata.xml geschrieben. Dieses File wird für die Ausgabe auf der Webseite benötigt.
-Ebenfalls gibt es eine Logger-Klasse welche alle Meldungen mit einem Zeitstempel in ein Logfile schreibt. So kann genau überprüft werden, wann ein Sensor angeschlossen oder entfernt wurde aber auch ob zum richtigen Zeitpunkt ein Mail versendet wurde. 
+Das Klassendiagramm (Abbildung \ref{fig:classdia}) bietet eine detaillierte Übersicht über die Softwarelösung. Im Zentrum steht dabei die Klasse \code{Controller}, welche für die Sensoren, das XML-Handling sowie der Ausgabe benötigter Meldungen zuständig ist. Die digitalen Sensor- Rohdaten werden von der Klasse \code{SPIDataHandler} ermittelt, und vom \code{RawDigitalValueServer} bereitgestellt.
 
 \begin{figure}[H]%Position festigen
 \centering
@@ -35,7 +32,13 @@ Ebenfalls gibt es eine Logger-Klasse welche alle Meldungen mit einem Zeitstempel
 \caption{Klassendiagramm Software}
 \label{fig:classdia}
 \end{figure}
+
+Die Klasse \code{SensorWatchDog} ist dafür zuständig um die angeschlossenen Sensoren zu prüfen, wird ein neuer Sensor angeschlossen, so wird dies dem Controller mittels der Methode \code{reportSensorUp} bekannt gegeben. Der Controller erzeugt dann, einen neuen \code{SensorHandler} und startet einen Thread. Die Klasse \code{SensorHandler} überprüft und berechnet nun laufend die Temperaturwerte und rapportiert diese über den \code{SensorObserver} dem \code{Controller}. Der Wert des Sensors wird schlussendlich mittels \code{XMLHandler} in das File sensordata.xml geschrieben. Dieses File wird für die Ausgabe auf der Webseite verwendet.
+Ebenfalls gibt es eine Logger-Klasse welche alle Meldungen mit einem Zeitstempel ausgibt. Die Ausgabe erfolgt auf der Konsole und kann beim Aufruf des Programmes entsprechend in ein Logfile umgelenkt werden. So kann genau überprüft werden, wann ein Sensor angeschlossen oder entfernt, sowie ob zum richtigen Zeitpunkt ein Mail versendet worden ist. 
+
 \subsection{Verwendete Hardware}
+
+Die in Abbildung \ref{fig:plate} dargestellte Baseboard bietet eine universelle Plattform um verschiedene Aktoren anschliessen zu können. Für die analogen Temperatursensoren stehen vier Anschlüsse zu verfügung, wobei jeder Anschluss zwei analoge Kanäle abdeckt. 
 
 \begin{figure}[H]%Position festigen
 \centering
@@ -98,7 +101,7 @@ setInterval(function () {
 \centering
 \includegraphics[width=0.5\textwidth]{Images/Webseite.png}
 \caption{Ausgabe der Webseite}
-\label{fig:classdia}
+\label{fig:webpage}
 \end{figure}
 
 \section{Versuchsdurchführung}
