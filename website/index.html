@@ -3,10 +3,14 @@
     <head>
         <title>Temperature Guardian</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <script src="../justgage-1.2.2/raphael-2.1.4.min.js"></script>
-        <script src="../justgage-1.2.2/justgage.js"></script>
+        <meta HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE"/>
+        <meta HTTP-EQUIV="EXPIRES" CONTENT="-1"/>
+        
+        <script src="justgage-1.2.2/raphael-2.1.4.min.js"></script>
+        <script src="justgage-1.2.2/justgage.js"></script>
 
-        <script>       
+
+        <script>  
             window.onload = function()
             {
                 loadXmlFile();
@@ -15,6 +19,11 @@
         
         <style>
 
+			p {
+				font-family:verdana;
+				text-align:center;
+			}
+		
             #s1, #s2, #s3, #s4, #s5, #s6, #s7, #s8{
                 display: inline-block;
                 float: left;
@@ -22,14 +31,13 @@
 
             .t1, .t2, .t3, .t4, .t5, .t6, .t7, .t8{
                 text-align: center;
-                    clear:both;
-                padding: 20px;
-            }
-
-            p {
-                //width: 450px;
-                margin: 2em auto;
-                text: align-center;
+                clear:both;
+                padding-top: 0px;
+                padding-right: 20px;
+                padding-bottom: 20px;
+                padding-left: 20px;
+                color: #999999;
+                font-family: Arial;
             }
             
             .container{
@@ -42,7 +50,7 @@
 
     </head>
     <body>
-        <div id="p">Temperaturüberprüfung mittels Sensoren<br></div>	  	  
+        <p>Temperaturüberprüfung mittels Sensoren</p>	  	  
        
         <div class="container">
             <div id="s1"></div>
@@ -82,15 +90,14 @@
         <div class="container">        
             <div id="s8"></div>
             <div class="t8">inaktiv</div>
-        </div>        
+        </div> 
 
         <script>            
-            var valueArray = new Array(8);
+            var valueArray = new Array(3);
             function loadXmlFile(){
-
                 var xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function () {
-                    if (this.readyState == 4 && this.status == 200) {
+                    if (this.readyState == 4 || this.status == 200) {
                         readXMLNode(this);
                     }
                 }
@@ -177,8 +184,9 @@
                     min: 0,
                     max: 75,
                     title: "Sensor 8",
-                    hideMinMax: true
+                    hideMinMax: true,
                 });
+
 
                 setInterval(function () {
                     loadXmlFile();
@@ -189,7 +197,7 @@
                     } else {
                         document.getElementsByClassName('container')[0].getElementsByClassName('t1')[0].innerHTML = 'inaktiv';
                     }
-                    
+
                     if (valueArray[1] != null) {
                         s2.refresh(valueArray[1]);
                         document.getElementsByClassName('container')[1].getElementsByClassName('t2')[0].innerHTML = 'aktiv';
@@ -198,42 +206,42 @@
                     }
                     
                     if (valueArray[2] != null) {
-                        s3.refresh(valueArray[1]);
+                        s3.refresh(valueArray[2]);
                         document.getElementsByClassName('container')[2].getElementsByClassName('t3')[0].innerHTML = 'aktiv';
                     } else {
                         document.getElementsByClassName('container')[2].getElementsByClassName('t3')[0].innerHTML = 'inaktiv';
                     }                    
 
                     if (valueArray[3] != null) {
-                        s4.refresh(valueArray[1]);
+                        s4.refresh(valueArray[3]);
                         document.getElementsByClassName('container')[3].getElementsByClassName('t4')[0].innerHTML = 'aktiv';
                     } else {
                         document.getElementsByClassName('container')[3].getElementsByClassName('t4')[0].innerHTML = 'inaktiv';
                     }
                     
                     if (valueArray[4] != null) {
-                        s5.refresh(valueArray[1]);
+                        s5.refresh(valueArray[4]);
                         document.getElementsByClassName('container')[4].getElementsByClassName('t5')[0].innerHTML = 'aktiv';
                     } else {
                         document.getElementsByClassName('container')[4].getElementsByClassName('t5')[0].innerHTML = 'inaktiv';
                     }
                    
                     if (valueArray[5] != null) {
-                        s6.refresh(valueArray[1]);
+                        s6.refresh(valueArray[5]);
                         document.getElementsByClassName('container')[5].getElementsByClassName('t6')[0].innerHTML = 'aktiv';
                     } else {
                         document.getElementsByClassName('container')[5].getElementsByClassName('t6')[0].innerHTML = 'inaktiv';
                     }
                     
                     if (valueArray[6] != null) {
-                        s7.refresh(valueArray[1]);
+                        s7.refresh(valueArray[6]);
                         document.getElementsByClassName('container')[6].getElementsByClassName('t7')[0].innerHTML = 'aktiv';
                     } else {
                         document.getElementsByClassName('container')[6].getElementsByClassName('t7')[0].innerHTML = 'inaktiv';
                     }
                     
                     if (valueArray[7] != null) {
-                        s8.refresh(valueArray[1]);
+                        s8.refresh(valueArray[7]);
                         document.getElementsByClassName('container')[7].getElementsByClassName('t8')[0].innerHTML = 'aktiv';
                     } else {
                         document.getElementsByClassName('container')[7].getElementsByClassName('t8')[0].innerHTML = 'inaktiv';
