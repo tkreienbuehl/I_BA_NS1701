@@ -8,18 +8,21 @@
 #include <unistd.h>
 #include <iostream>
 #include <cstdio>
+#include <ctime>
+#include <iomanip>
 
 Controller::Controller()
 	: m_running(false)
 	, m_xmlHandler(new XMLHandler())
-	, m_MailSender(new EMailSender) {
+	, m_MailSender(new EMailSender)
+	, m_LogMsgWriter(LogMsgWriter::getInstance()) {
 	pthread_mutex_init(&m_mutex, NULL);
 	m_MailSender->setSourceAddress("Temeraturwaechter@enterpriselab.ch");
 	m_MailSender->setDestinationAddress("tkreienbuehl@bluewin.ch");
 	m_MailSender->setHeaderText("TemperaturWächter online");
 	m_MailSender->setMessageText("Der Temperaturwächter wurde gestartet");
 	if (m_MailSender->sendEmail() == 0 ) {
-		std::cout << "Start mail sent" << std::endl;
+		m_LogMsgWriter->writeLogMsg("Start mail sent");
 	}
 }
 
@@ -80,6 +83,10 @@ void Controller::addSensor(uint8_t sensorPos) {
 	sensor->registerSensorObserver(this);
 	m_SensorPool.insert(std::make_pair(sensorPos, sensor));
 	pthread_create(&m_SensorThreads[sensorPos], NULL, SensorHandler::startSensorHandler, sensor);
+	char buf[120];
+	sprintf(buf,"New sensor found and activated. Sensor ID = %u", sensorPos);
+	std::string msg = buf;
+	m_LogMsgWriter->writeLogMsg(msg);
 }
 
 void Controller::removeSensor(uint8_t sensorID) {
@@ -91,6 +98,10 @@ void Controller::removeSensor(uint8_t sensorID) {
 		m_xmlHandler->removeSensor(sensorID);
 		usleep(5000 * 1000);
 		delete sensor;
+		char buf[120];
+		sprintf(buf,"Sensor %u stopped working, removed", sensorID);
+		std::string msg = buf;
+		m_LogMsgWriter->writeLogMsg(msg);
 	}
 }
 
@@ -104,4 +115,5 @@ void Controller::reportTemperaturLimitReached(uint8_t sensorID) {
 	m_MailSender->setMessageText(buf);
 	m_MailSender->sendEmail();
 	m_xmlHandler->setAlertState();
+	m_LogMsgWriter->writeLogMsg("Alert message sent");
 }

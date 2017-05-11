@@ -17,6 +17,7 @@
 #include "SensorObserver.hpp"
 #include "EMailSender.hpp"
 #include "XMLHandler.hpp"
+#include "LogMsgWriter.hpp"
 
 #define MAX_NR_OF_SENSORS 8
 
@@ -48,6 +49,7 @@ private:
 	XMLHandler* m_xmlHandler;
 	EMailSender* m_MailSender;
 	pthread_mutex_t m_mutex;
+	LogMsgWriter* m_LogMsgWriter;
 };
 
 #endif /* __CONTROLLER_H_ */
