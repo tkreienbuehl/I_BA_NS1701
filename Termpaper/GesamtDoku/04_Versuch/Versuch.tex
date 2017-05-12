@@ -19,7 +19,7 @@ Inteface SPI: enable\\
 Netzwerk: aktuell ist die IP-Adresse fix mit 10.25.0.7 konfiguriert
 
 \subsubsection{Webserver}
-Auf dem Raspberry wird zusätzlich ein Webserver bereitgestellt, damit die die Temperaturausgabe direkt im lokalen Netz betrachtet werden kann. Als Webserver wurde Apache2 installiert.
+Auf dem Raspberry wird zusätzlich ein Webserver bereitgestellt, damit die Temperaturausgabe direkt im lokalen Netz betrachtet werden kann. Als Webserver wurde Apache2 installiert.
 
 
 \subsection{Softwaredesing}
@@ -63,11 +63,10 @@ Die in Abbildung \ref{fig:plate} dargestellte Baseboard bietet eine universelle 
 
 \subsection{Webdarstellung}
 Die Umsetzung der Webseite wurde hauptsächlich mit JavaScript gemacht.
-Für die Anzeige der Temperatur wurde das JavaScript Plugin JustGage verwendet. Diese visuelle Darstellung ermöglicht es, auf 1 Blick zu erkenn, ob die aktuellen Werte zu hoch oder allenfalls zu niedrig sind.\\
-
-Die Werte werden von der Software als XML-File geliefert, in welchem die Temperaturwerte pro Sensor gespeichert sind. Die Webseite wurde so konzipiert, dass dieses XML-File in einem regelmässigen Zyklus gelesen und entsprechend auf der Seite ausgegeben wird. Dieser Punkt gehört mitunter zu einer der wichtigsten, denn die korrekte Anzeige der Temperaturwerte ist notwendig um die Kontrolle zu jederzeit zu gewährleisten. Diese Anforderung kann setInterval(function, 1000) umgesetzt werden. Mit dieser Funktion werden die Temperaturwerte jede Sekunde oder nach Belieben neu vom XML-File gelesen.
-Zusätzlich bringt JustGage die Funktion mit sich, welche es ermöglicht über refresh(val) dem Sensor die neuen Werte zu übergeben.\\
-
+Für die Anzeige der Temperatur wurde das JavaScript Plugin JustGage verwendet. Diese visuelle Darstellung ermöglicht es, auf einen Blick zu erkennen, wie hoch die aktuelle Umgebungstemperatur ist. Zudem werden die Sensoranzeigen farblich hervorgehoben, sobald die Temperaturen in einen kritischen Zustand geraten. 
+Die Werte werden von der Software als XML-File geliefert, in welchem die Temperaturwerte sowie die ID pro Sensor gespeichert sind. Die Webseite wurde so konzipiert, dass dieses XML-File in einem regelmässigen Zyklus gelesen und die Temperaturwerte entsprechend auf der Seite ausgegeben werden. Dieser Punkt gehört mitunter zu einer der Wichtigsten, denn die korrekte Anzeige der Temperaturwerte ist notwendig, um die Kontrolle jederzeit zu gewährleisten. Diese Anforderung kann mit \code {setInterval(function, 1000)} umgesetzt werden. Mit dieser Funktion werden die Temperaturwerte jede Sekunde oder nach Belieben neu vom XML-File gelesen.
+Zusätzlich bringt JustGage eine Funktion mit sich, welche es ermöglicht über \code {refresh(val)} dem Sensor die neuen Werte zu übergeben. Wird ein Sensor angeschlossen, so sollte dieser zeitnah in das XML geschrieben und mittels \code {setInterval(function, 1000)} auf der Webseite ausgegeben werden. Auf der Webseite werden alle 8 Sensoren dargestellt. Wenn die Sensoren effektive an den GPIO's angeschlossen sind,  werden diese auf der Webseite als \grqq{}aktiv\glqq{} angezeigt. Im Gegenzug ist der Sensor \grqq{}inaktiv\glqq{} sobald dieser von der Basisplatine entfernt wird.\\
+In der Funktion \code {readXMLNode(xml)} werden die Werte via \code{getEelemtsByTagName} aus dem XML gelesen und in ein Array gefüllt. Ist im XML der Sensor nicht vorhanden, so ist dieser entsprechend nicht angeschlossen und der Wert im Array wird mit 0 befüllt.\\
 
 \textbf{Beispielcode der Webseite}
 
@@ -76,10 +75,10 @@ Zusätzlich bringt JustGage die Funktion mit sich, welche es ermöglicht über r
 var s1 = new JustGage({
 	id: "s1",
 	alue: 0,
-    min: 0,
-    max: 75,
-    title: "Sensor 1",
-    hideMinMax: true
+	min: 0,
+	max: 75,
+	title: "Sensor 1",
+	hideMinMax: true
 });
 
 //Auslesen der Temperaturwerte
@@ -99,7 +98,7 @@ setInterval(function () {
 
 \begin{figure}[H]%Position festigen
 \centering
-\includegraphics[width=0.5\textwidth]{Images/Webseite.png}
+\includegraphics[width=0.75\textwidth]{Images/Webseite.png}
 \caption{Ausgabe der Webseite}
 \label{fig:webpage}
 \end{figure}
