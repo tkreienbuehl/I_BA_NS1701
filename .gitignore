@@ -50,3 +50,7 @@ Thumbs.db
 .metadata
 Release
 Debug
+TemperatureGuardian/src/header/RawDigitalValueServer-1.hpp
+TemperatureGuardian/src/source/Controller-1.cpp
+TemperatureGuardian/src/source/SensorHandler-1.cpp
+Termpaper/Klassendiagramm-1.dia
