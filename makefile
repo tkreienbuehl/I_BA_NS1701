@@ -2,7 +2,7 @@ CC = g++
 PARA = -O3 -Wall -c -fmessage-length=0
 HEAD = $(CC) $(PARA)
 SOURCE = ./src/source/
-LIBS = -lpthread
+LIBS = -lpthread -lrt
 
 all: $(SOURCE)TemperatureGuardian.cpp
 	$(HEAD) $(SOURCE)SPIConnectionHandler.cpp
@@ -27,7 +27,7 @@ all: $(SOURCE)TemperatureGuardian.cpp
 
 	$(HEAD) $(SOURCE)LogMsgWriter.cpp
 
-	g++ -o TemperatureGuardian SensorHandler.o SPIConnectionHandler.o SPIDataHandler.o Controller.o RawDigitalValueServer.o SensorWatchDog.o TemperatureGuardian.o pugixml.o XMLHandler.o EMailSender.o LogMsgWriter $(LIBS)
+	g++ -o TemperatureGuardian SensorHandler.o SPIConnectionHandler.o SPIDataHandler.o Controller.o RawDigitalValueServer.o SensorWatchDog.o TemperatureGuardian.o pugixml.o XMLHandler.o EMailSender.o LogMsgWriter.o $(LIBS)
 
 #rm *.o
 

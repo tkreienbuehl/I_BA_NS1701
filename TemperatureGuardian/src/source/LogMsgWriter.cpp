@@ -29,5 +29,6 @@ void LogMsgWriter::releaseInstance() {
 
 void LogMsgWriter::writeLogMsg(std::string message) {
 	std::time_t timeNow = std::time(NULL);
-	std::cout << std::put_time(std::localtime(&timeNow), "%d-%m-%y %OH:%OM:%OS") << " " << message << std::endl;
+	std::string dateTime = ctime(&timeNow);
+	std::cout << dateTime << " " << message << std::endl;
 }

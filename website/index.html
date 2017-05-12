@@ -93,7 +93,7 @@
         </div> 
 
         <script>            
-            var valueArray = new Array(3);
+            var valueArray = new Array(8);
             function loadXmlFile(){
                 var xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function () {
@@ -108,7 +108,16 @@
             function readXMLNode(xml) {
                 var xmlDoc = xml.responseXML;
                 for (var i = 0, len = valueArray.length; i < len; i++) {
-                    valueArray[i] = xmlDoc.getElementsByTagName("SensorValues")[0].getElementsByTagName("Sensor")[i].getAttribute("value");
+                    valueArray[i] = 0;
+                }                
+                for (var i = 0, len = valueArray.length; i < len; i++) {
+                    sensorID = xmlDoc.getElementsByTagName("SensorValues")[0].getElementsByTagName("Sensor")[i].getAttribute("id");
+                    value = xmlDoc.getElementsByTagName("SensorValues")[0].getElementsByTagName("Sensor")[i].getAttribute("value");
+                    if (value> 0) {
+                        valueArray[sensorID] = value;
+                    }
+                    console.log(sensorID);
+                    console.log(value);
                 }
             }
             document.addEventListener("DOMContentLoaded", function (event) {
@@ -191,57 +200,57 @@
                 setInterval(function () {
                     loadXmlFile();
                     
-                    if (valueArray[0] != null) {
-                        s1.refresh(valueArray[0]);
+                    s1.refresh(valueArray[0]);
+                    if (valueArray[0] != null && valueArray[0] > 0) {
                         document.getElementsByClassName('container')[0].getElementsByClassName('t1')[0].innerHTML = 'aktiv';
                     } else {
                         document.getElementsByClassName('container')[0].getElementsByClassName('t1')[0].innerHTML = 'inaktiv';
                     }
 
-                    if (valueArray[1] != null) {
-                        s2.refresh(valueArray[1]);
+                    s2.refresh(valueArray[1]);
+                    if (valueArray[1] != null && valueArray[1] > 0) {
                         document.getElementsByClassName('container')[1].getElementsByClassName('t2')[0].innerHTML = 'aktiv';
                     } else {
                         document.getElementsByClassName('container')[1].getElementsByClassName('t2')[0].innerHTML = 'inaktiv';
                     }
                     
-                    if (valueArray[2] != null) {
-                        s3.refresh(valueArray[2]);
+                    s3.refresh(valueArray[2]);
+                    if (valueArray[2] != null && valueArray[2] > 0) {
                         document.getElementsByClassName('container')[2].getElementsByClassName('t3')[0].innerHTML = 'aktiv';
                     } else {
                         document.getElementsByClassName('container')[2].getElementsByClassName('t3')[0].innerHTML = 'inaktiv';
                     }                    
 
-                    if (valueArray[3] != null) {
-                        s4.refresh(valueArray[3]);
+                    s4.refresh(valueArray[3]);
+                    if (valueArray[3] != null && valueArray[3] > 0) {
                         document.getElementsByClassName('container')[3].getElementsByClassName('t4')[0].innerHTML = 'aktiv';
                     } else {
                         document.getElementsByClassName('container')[3].getElementsByClassName('t4')[0].innerHTML = 'inaktiv';
                     }
                     
-                    if (valueArray[4] != null) {
-                        s5.refresh(valueArray[4]);
+                    s5.refresh(valueArray[4]);
+                    if (valueArray[4] != null && valueArray[4] > 0) {
                         document.getElementsByClassName('container')[4].getElementsByClassName('t5')[0].innerHTML = 'aktiv';
                     } else {
                         document.getElementsByClassName('container')[4].getElementsByClassName('t5')[0].innerHTML = 'inaktiv';
                     }
                    
-                    if (valueArray[5] != null) {
-                        s6.refresh(valueArray[5]);
+                    s6.refresh(valueArray[5]);
+                    if (valueArray[5] != null && valueArray[5] > 0) {
                         document.getElementsByClassName('container')[5].getElementsByClassName('t6')[0].innerHTML = 'aktiv';
                     } else {
                         document.getElementsByClassName('container')[5].getElementsByClassName('t6')[0].innerHTML = 'inaktiv';
                     }
                     
-                    if (valueArray[6] != null) {
-                        s7.refresh(valueArray[6]);
+                    s7.refresh(valueArray[6]);
+                    if (valueArray[6] != null && valueArray[6] > 0) {
                         document.getElementsByClassName('container')[6].getElementsByClassName('t7')[0].innerHTML = 'aktiv';
                     } else {
                         document.getElementsByClassName('container')[6].getElementsByClassName('t7')[0].innerHTML = 'inaktiv';
                     }
                     
-                    if (valueArray[7] != null) {
-                        s8.refresh(valueArray[7]);
+                    s8.refresh(valueArray[7]);
+                    if (valueArray[7] != null && valueArray[7] > 0) {
                         document.getElementsByClassName('container')[7].getElementsByClassName('t8')[0].innerHTML = 'aktiv';
                     } else {
                         document.getElementsByClassName('container')[7].getElementsByClassName('t8')[0].innerHTML = 'inaktiv';

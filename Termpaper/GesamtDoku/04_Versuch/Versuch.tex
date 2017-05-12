@@ -38,7 +38,7 @@ Ebenfalls gibt es eine Logger-Klasse welche alle Meldungen mit einem Zeitstempel
 
 \subsection{Verwendete Hardware}
 
-Die in Abbildung \ref{fig:plate} dargestellte Baseboard bietet eine universelle Plattform um verschiedene Aktoren anschliessen zu können. Für die analogen Temperatursensoren stehen vier Anschlüsse zu verfügung, wobei jeder Anschluss zwei analoge Kanäle abdeckt. 
+Die in Abbildung \ref{fig:plate} dargestellte Baseboard, des Herstellers Linkerkit, bietet eine universelle Plattform um verschiedene Aktoren anschliessen zu können. Für die verwendeten, analogen Temperatursensoren stehen vier Anschlüsse zu verfügung, wobei jeder Anschluss zwei analoge Kanäle abdeckt.
 
 \begin{figure}[H]%Position festigen
 \centering
@@ -54,11 +54,26 @@ Die in Abbildung \ref{fig:plate} dargestellte Baseboard bietet eine universelle 
 \label{fig:sensor}
 \end{figure}
 
+Ein analoger Temperaturfühler auf einem passenden Board, in Abbildung \ref{fig:sensor} abgebildet, liefert Spannungswerte, abhängig von der Aussentemperatur. Diese Werte werden über den Analog- Digitalwandlerchip MCP3008, der sich auf dem Baseboard befindet in digitale Signale umgewandelt, welche mittels der Formel
+\[
+	T = 100 \cdot \left( \frac{D \cdot V}{1024} - 0.5 \right) 
+\]
+in Grad Celsius umgerechnet werden. Dabei entspricht $D$ dem digitalen Eingangswert, $V$ der Speisespannung für den Sensor, in unserem Fall 3.3V und $T$ der resultierenden Temperatur.
+
 \begin{figure}[H]%Position festigen
 \centering
 \includegraphics[width=0.25\textwidth]{Images/Verbindungskabel.jpg}
 \caption{Verbindungskabel (Quelle www.Conrad.ch)}
 \label{fig:cable}
+\end{figure}
+
+Die Sensoren werden mittels dem in Abbildung \ref{fig:cable} dargestellten Kabel verbunden. Um acht Sensoren anschliessen zu können müssen spezielle Kabel angefertigt werden, da die Sensorplatine (Abbildung \ref{fig:sensor} einen Anschluss nicht verwendet. Das dazu benötigte Schema ist in Abbildung \ref{fig:schema_doppelsensor} visualisiert. Wichtig ist dabei, auf allfällige Störfaktoren zu achten. Sämtliche Verbindungsstellen sollten zu den übrigen Verbindungsstellen abgeschirmt werden. Dieses Layout wurde im Rahmen dieser Arbeit nicht realisiert.
+
+\begin{figure}[H]%Position festigen
+\centering
+\includegraphics[width=0.25\textwidth]{Images/Schema.png}
+\caption{Schema Verbindungskabel für zwei Sensoren}
+\label{fig:schema_doppelsensor}
 \end{figure}
 
 \subsection{Webdarstellung}
