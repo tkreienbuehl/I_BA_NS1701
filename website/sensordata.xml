@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <header>
 	<SensorValues id="SensorValues">
-		<Sensor id="2" value="12" />
-		<Sensor id="3" value="18" />
-		<Sensor id="4" value="38" />
+		<Sensor id="2" value="24" />
+		<Sensor id="3" value="12" />
+		<Sensor id="4" value="54" />
 	</SensorValues>
 </header>

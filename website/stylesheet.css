@@ -1,0 +1,28 @@
+p {
+	font-family:verdana;
+	text-align:center;
+}
+
+#s1, #s2, #s3, #s4, #s5, #s6, #s7, #s8{
+    display: inline-block;
+    float: left;
+}
+
+.t1, .t2, .t3, .t4, .t5, .t6, .t7, .t8{
+    text-align: center;
+    clear:both;
+    padding-top: 0px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    color: #999999;
+    font-family: Arial;
+}
+
+.container{
+    float: left;
+    text: align-center;
+    padding: 10px;
+	width: 300px;
+
+}
