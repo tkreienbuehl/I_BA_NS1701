@@ -83,31 +83,61 @@ Die Werte werden von der Software als XML-File geliefert, in welchem die Tempera
 Zusätzlich bringt JustGage eine Funktion mit sich, welche es ermöglicht über \code {refresh(val)} dem Sensor die neuen Werte zu übergeben. Wird ein Sensor angeschlossen, so sollte dieser zeitnah in das XML geschrieben und mittels \code {setInterval(function, 1000)} auf der Webseite ausgegeben werden. Auf der Webseite werden alle 8 Sensoren dargestellt. Wenn die Sensoren effektive an den GPIO's angeschlossen sind,  werden diese auf der Webseite als \grqq{}aktiv\glqq{} angezeigt. Im Gegenzug ist der Sensor \grqq{}inaktiv\glqq{} sobald dieser von der Basisplatine entfernt wird.\\
 In der Funktion \code {readXMLNode(xml)} werden die Werte via \code{getEelemtsByTagName} aus dem XML gelesen und in ein Array gefüllt. Ist im XML der Sensor nicht vorhanden, so ist dieser entsprechend nicht angeschlossen und der Wert im Array wird mit 0 befüllt.\\
 
-\textbf{Beispielcode der Webseite}
-
+\textbf{Beispielcode der Webseite}\newline 
+In dem folgenden Code wird eine Instanz des Sensors erstellt. In der Abbildung \ref{fig:sensor_webpage} ist die Darstellung mit einem aktiven Sensor und einer übergebenen Temperatur ersichtlich. 
 \begin{lstlisting}{}
 //Erstellen eines Sensors
 var s1 = new JustGage({
 	id: "s1",
-	alue: 0,
+	value: 0,
 	min: 0,
 	max: 75,
 	title: "Sensor 1",
 	hideMinMax: true
 });
+\end{lstlisting}
 
+\begin{figure}[H]%Position festigen
+\centering
+\includegraphics[width=0.25\textwidth]{Images/SensorWebseite.jpg}
+\caption{Anzeige eines einzelnen Sensors}
+\label{fig:sensor_webpage}
+\end{figure}
+
+Die untenstehende Funktion ist dafür zuständig, alle Sensorwerte aus der XML-Datei zu lesen. Zuerst wird mit einer for-Schleife durch das Array iteriert und jedem Index den Wert 0 zugewiesen. Anschliessend wird für jeden aktiven Sensor, Überprüfung mit \code{value > 0}, der aktuelle Wert dem Array übergeben.
+\begin{lstlisting}{}
 //Auslesen der Temperaturwerte
 function readXMLNode(xml) {
 	var xmlDoc = xml.responseXML;
 	for (var i = 0, len = valueArray.length; i < len; i++) {
-	valueArray[i] = xmlDoc.getElementsByTagName("SensorValues")[0].getElementsByTagName("Sensor")[i].getAttribute("value");
+		valueArray[i] = 0;
+	}                
+	for (var i = 0, len = valueArray.length; i < len; i++) {
+		sensorID = xmlDoc.getElementsByTagName("SensorValues")
+		[0].getElementsByTagName("Sensor")[i].getAttribute("id");
+		value = xmlDoc.getElementsByTagName("SensorValues")
+		[0].getElementsByTagName("Sensor")[i].getAttribute("value");
+		if (value> 0) {
+			valueArray[sensorID] = value;
+		}
 	}
 };
+\end{lstlisting}
 
+Im folgenden Codebeispiel wird das XML jede Sekunde neu geladen und über \code{s1.refresh(valueArray[0])} an den Sensor, welcher auf der Webseite angezeigt wird, übergeben. Im Array wird zusätzlich geprüft, ob der Wert null oder 0 ist. Ist dies der Fall so wird auf der Seite inaktiv ausgegben.
+
+\begin{lstlisting}{}
 //Zyklische Uebergabe der Temperaturwerte an den Sensor
 setInterval(function () {
 	loadXmlFile();
 	s1.refresh(valueArray[0]);
+	if (valueArray[0] != null && valueArray[0] > 0) {
+		document.getElementsByClassName('container')[0].
+		getElementsByClassName('t1')[0].innerHTML = 'aktiv';
+	} else {
+		document.getElementsByClassName('container')[0].
+		getElementsByClassName('t1')[0].innerHTML = 'inaktiv';
+	}
 }, 1000);
 \end{lstlisting}
 
