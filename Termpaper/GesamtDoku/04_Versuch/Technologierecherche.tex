@@ -12,10 +12,13 @@ Diese digitalen Signale können so in Temperaturwerte umgerechnet und für eine 
 \end{figure}
 
 \subsubsection{GPIO}
-General-purpose input/output (GPIO) ist ein digitaler Anschlusspunkt, welcher vom RaspberryPi zur Verfügung gestellt wird. Über diese Schnittstelle können die Werte der anschlossenen Sensoren übertragen werden. Für die Auswertung analoger Sensoren muss entsprechend ein Analog- Digitalwandler verwendet werden.
+General-purpose input/output (GPIO) ist ein digitaler Anschlusspunkt, welcher vom RaspberryPi zur Verfügung gestellt wird. Über diese Schnittstelle können die Werte der anschlossenen Sensoren übertragen werden. Für die Auswertung analoger Sensoren muss entsprechend ein Analog- Digitalwandler verwendet werden.\\
+Digitale Sensoren wie z.B. ein LM75 können direkt angeschlossen und über $I^2C$ verwendet werden, sind in der Anschaffung dafür etwas teurer (mikrocontroller.net).
 
 \subsubsection{Sensortypen}
-<tbd>
+Um eine Temperaturmessung zu realisieren stehen diverse Sensortypen zu Verfügung. Einige analoge Sensortypen, wie PTC\footnote{Kaltleiter} und NTC\footnote{Heissleiter} verändern dabei ihren Widerstand in Abhängigkeit zur Temperatur, jedoch verläuft die Kurve nicht linear. Weitere Sensortypen sind elektronische Bauteile, die ein vorverarbeitetes Signal liefern, entweder einen linear angepassten Strom oder eine Spannung. Um den Berechnungsaufwand möglichst klein zu halten, wurde der Fokus auf die letzteren Sensortypen gelegt.\\
+Nachteil der analogen Sensoren ist, dass auf dem Raspberry Pi nur digitale Eingänge (GPIO) zu Verfügung stehen. Es muss somit  mit einem Analog- Digitalwandler gearbeitet werden.
+
 
 \subsection{Software Entwurfsmuster}
 Die Software für die Temperaturüberwachung muss, aufgrund des Dauerbetriebes, robust, energieschonend und erweiterbar gestaltet werden. Um diese Anforderungen zu erreichen, haben wir einige Entwurfsmuster verwendet.\\
