@@ -2,7 +2,14 @@
 \section{Systemabgrenzung}
 \subsection{Projektbeschrieb}
 \subsection{Ziele}
+Folgende Ziele wurden definiert:
+\begin{itemize}
+\item Aktive Überprüfung der Umgebungstemperatur mittels Sensoren
+\item Ausgabe der aktuellen Temperaturwerte über eine Webseite
+\item Mailbenachrichtigung bei zu hohen Temperaturwerten
+\end{itemize}
+
 \subsection{Anforderungen}
-Die Temperaturüberwachung soll als Eigenbauversion mit Hilfe eines Raspberry Pi und Temperatursensoren realisiert werden. Die zulässige Höchsttemperatur kann über ein kleines Interface festgelegt und somit bedarfsgerecht angepasst werden. Wird die eingestellte Höchsttemperatur überschritten, wird eine E-Mail ausgelöst, um das Wartungsteam zu informieren. Dabei werden sowohl Temperatur, Zeit als auch die Anzahl Sensoren, welche die Höchsttemperatur überschritten haben, mitgegeben. Das Versenden mehrerer E-Mails, für das gleiche Ereignis, soll dabei vermieden werden. Die Sensoren können über eine Platine an das Raspberry Pi angeschlossen werden, damit sich das System skalierbar gestaltet, ohne, dass elektronische Fachkenntnisse vorausgesetzt werden. Es wird dabei von maximal acht Sensoren pro Raspberry Pi ausgegangen.\\
-Um ergänzend zur Schwellwertgrenze der Temperatur auch eine generelle Überwachung zu ermöglichen, soll auf dem Raspberry Pi ein Webserver eingerichtet werden, der von allen Temperaursensoren die akuelle Temperatur in einfacher Form zu Verfügung stellt, dazu werden die Sensorwerte alle 25- 30 Sekunden aktualisiert.
+Die Temperaturüberwachung soll als Eigenbauversion mit Hilfe eines Raspberry Pi und Temperatursensoren realisiert werden. Die zulässige Höchsttemperatur kann über ein kleines Interface festgelegt und somit bedarfsgerecht angepasst werden. Wird die eingestellte Höchsttemperatur überschritten, wird eine E-Mail ausgelöst, um das Wartungsteam zu informieren. Dabei werden sowohl Temperatur, Zeit als auch die Anzahl Sensoren, welche die Höchsttemperatur überschritten haben, mitgegeben. Das Versenden mehrerer E-Mails, für das gleiche Ereignis, soll dabei vermieden werden. Die Sensoren können über eine Platine an das Raspberry Pi angeschlossen werden, damit sich das System skalierbar gestaltet, ohne das zu tiefe elektronische Fachkenntnisse vorausgesetzt werden. Es wird dabei von maximal acht Sensoren pro Raspberry Pi ausgegangen.\\
+Um ergänzend zur Schwellwertgrenze der Temperatur auch eine generelle Überwachung zu ermöglichen, soll auf dem Raspberry Pi ein Webserver eingerichtet werden, der von allen Temperaursensoren die akuelle Temperatur in einfacher Form zur Verfügung stellt, dazu werden die Sensorwerte alle 25- 30 Sekunden aktualisiert.
 \subsection{Erwartungshaltung}
