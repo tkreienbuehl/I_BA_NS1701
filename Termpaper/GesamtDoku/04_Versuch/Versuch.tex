@@ -10,17 +10,18 @@ Die 32GB grosse SD-Karte welche man für das Raspberry benötigt, wird zu Beginn
 
 \subsubsection{Konfiguration}
 Nach der Installation der Software kann das Raspberry mit Maus und Tastatur an einen Monitor angeschlossen werden. Sobald das Raspberry mit Strom versorgt wird, startet der Boot-Vorgang.
-Nun müssen alle wichtigen Grundkonfigurationen wie folgt vorgenommen werden.
-
-Tastatur: Deutsch(Schweiz)\\
-Username: pi\\
-Passwort: temperatur2017\\
-Inteface SPI: enable\\
-Netzwerk: aktuell ist die IP-Adresse fix mit 10.25.0.7 konfiguriert
+Nun müssen alle wichtigen Grundkonfigurationen vorgenommen werden, aktuell auf dem vorliegenden Gerät folgendermassen umgesetzt.
+\begin{itemize}
+	\item Tastatur: Deutsch(Schweiz)
+	\item Username: pi
+	\item Passwort: temperatur2017
+	\item Inteface SPI: enable
+	\item Netzwerk: aktuell ist die IP-Adresse fix mit 10.25.0.7 konfiguriert. Eine fixe Zuordung der IP Adresse wird empfohlen, um das Pi zuverlässig über ssh erreichen zu können. Dies kann ebenfalls über eine DHCP Reservierung mittels MAC-Binding erreicht werden.
+\end{itemize}
+Das Raspberry Pi ist in der Grundkofiguration sehr offen eingestellt, so hat der Standardbenutzer root- Rechte ohne das Passwort eingeben zu müssen. Dies, um schnell zu Ergebnissen bei kleineren Versuchen zu kommen. Die GPIO- Ports sowie die meisten I/O-Files müssen immer mit root- Rechten angesprochen werden. Die entsprechenden Einträge dazu befinden sich in der Datei \code{/etc/sudoers} und der dazu gehörende Eintrag heisst \code{pi ALL=(ALL) NOPASSWD: ALL}. Unbedingt beachtet werden muss, dass eine fehlerhafte Änderung dieser Date dazu führen kann, dass keine root- Befehle mehr ausgeführt werden können. Die sichere Konfiguration des Raspberry Pi ist ausserhalb des Scope dieser Arbeit, es soll nur auf gewisse Risiken hingewiesen werden.
 
 \subsubsection{Webserver}
-Auf dem Raspberry wird zusätzlich ein Webserver bereitgestellt, damit die Temperaturausgabe direkt im lokalen Netz betrachtet werden kann. Als Webserver wurde Apache2 installiert.
-
+Auf dem Raspberry wird zusätzlich ein Webserver bereitgestellt, damit die Temperaturausgabe direkt im lokalen Netz betrachtet werden kann. Als Webserver wurde Apache2 installiert. Die Webseite selber wird dann im Stammverzeichnins /var/www/html gespeichert und ist über die IP oder, wenn auf dem DNS-Server eingetragen auch über den Namen erreichbar. Aus Sicherheitsgründen sollte die Webseite statisch gehalten sein und nur über das Intranet erreicht werden können, wenn nicht zusätzliche Sicherheitsmassnahmen getroffen werden. 
 
 \subsection{Softwaredesing}
 
@@ -38,12 +39,12 @@ Ebenfalls gibt es eine Logger-Klasse welche alle Meldungen mit einem Zeitstempel
 
 \subsection{Verwendete Hardware}
 
-Die in Abbildung \ref{fig:plate} dargestellte Baseboard, des Herstellers Linkerkit, bietet eine universelle Plattform um verschiedene Aktoren anschliessen zu können. Für die verwendeten, analogen Temperatursensoren stehen vier Anschlüsse zu verfügung, wobei jeder Anschluss zwei analoge Kanäle abdeckt.
+Die in Abbildung \ref{fig:plate} dargestellte Baseboard, des Herstellers Linkerkit, bietet eine universelle Plattform um verschiedene Aktoren anschliessen zu können. Für die verwendeten, analogen Temperatursensoren stehen vier Anschlüsse zur Verfügung, wobei jeder Anschluss zwei analoge Kanäle abdeckt. Weiter beitet das verwendete Board je einen UART- und $I^2C$ Anschluss, sowie zwölf GPIO- Eingänge. Die Speisespannung kann mittels einem Jumper auf 3.3V oder 5V gestellt werden. 
 
 \begin{figure}[H]%Position festigen
 \centering
-\includegraphics[width=0.25\textwidth]{Images/Basisplatine.jpg}
-\caption{Basisplatine zum Raspberry Pi (Quelle www.Conrad.ch)}
+\includegraphics[width=0.5\textwidth]{Images/Basisplatine.png}
+\caption{Basisplatine zum Raspberry Pi (Quelle: Datenblatt Basisplatine)}
 \label{fig:plate}
 \end{figure}
 
@@ -149,6 +150,6 @@ setInterval(function () {
 \end{figure}
 
 \section{Versuchsdurchführung}
-Testing war und ist während dem gesamten Realisierungsprozesses ein zentrales Thema. Zu Beginn wurde das Softwarekonzept lokal auf dem Notebook erstellt und schrittweise getestet, mittels Konsolenausgaben und simulierten Sensorwerten. So konnte das Konzept bereits vor Erhalt und einrichten des Raspberry Pi's geprüft und als funktionstauglich bewertet werden.\\
+Testing war und ist während dem gesamten Realisierungsprozesses ein zentrales Thema. Zu Beginn wurde das Softwarekonzept lokal auf dem Notebook erstellt und schrittweise getestet, mittels Konsolenausgaben und simulierten Sensorwerten. So konnte das Konzept bereits vor Erhalt und Einrichten des Raspberry Pi's geprüft und als funktionstauglich bewertet werden.\\
 Die ursprüngliche Idee, die Umsetzung mittels automatisierter Tests abzusichern (Langr), musste aus Zeitgründen und fehlenden Erfahrungen fallengelassen werden.\\
-Nach Abschluss der Einrichtarbeiten auf dem Raspberry Pi, sind die Tests auf dem Gerät weitergeführt worden. Erst in kurzen Interwallen mit beiziehen von vorhandenen Thermometern zu Hause und später in Langzeittests wurde die Software auf ihre Genauigkeit sowie ihre Resilienz gegenüber Abstürzen geprüft. Weiter ist auch das Hinzufügen und Entfernen von Sensoren wiederholt getestet worden. Das versenden von E-Mailnachrichten ist mittels bewusstem Heruntersetzen der Grenztemperatur erfolgt. In diesem Bereich bestehen noch Berechtigungsprobleme, welche noch behoben werden.
+Nach Abschluss der Einrichtarbeiten auf dem Raspberry Pi, sind die Tests auf dem Gerät weitergeführt worden. Erst in kurzen Interwallen mit beiziehen von vorhandenen Thermometern zu Hause und später in Langzeittests ist die Software auf ihre Genauigkeit sowie ihre Resilienz gegenüber Abstürzen geprüft worden. Weiter ist auch das Hinzufügen und Entfernen von Sensoren wiederholt getestet worden. Das versenden von E-Mailnachrichten ist mittels bewusstem Heruntersetzen der Grenztemperatur erfolgt. In diesem Bereich bestehen noch Berechtigungsprobleme, welche noch behoben werden, die Auslösung der Nachricht hat in allen Test funktioniert.
