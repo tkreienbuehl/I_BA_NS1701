@@ -1,12 +1,12 @@
 % !TEX root = ../Dokumentation.tex
 \section{Realisierung}
 
-\subsection{RaspberryPi}
+\subsection{Raspberry Pi}
 
-Folgende Installation \& Grundkonfigurationen müssen zu Beginn am RaspberryPi vorgenommen werden.
+Folgende Installation \& Grundkonfigurationen müssen zu Beginn am Raspberry Pi vorgenommen werden.
 
 \subsubsection{Software}
-Die 32GB grosse SD-Karte welche man für das Raspberry benötigt, wird zu Beginn formatiert um danach eine saubere Installation des Betriebssystems durchzuführen. Als OS wird die Version 2017-04-10 raspbian-jessie verwedent, dieses Betriebssystem wird von diversen Webseiten und Anleitungen empfohlen. Es hat eine graphische Oberfläche und bietet bereits vorinstallierte Programme.
+Die 32GB grosse SD-Karte welche man für das Raspberry benötigt, wird zu Beginn formatiert um danach eine saubere Installation des Betriebssystems durchzuführen. Als OS wird die Version 2017-04-10 raspbian-jessie verwendet, dieses Betriebssystem wird von diversen Webseiten und Anleitungen empfohlen. Es hat eine graphische Oberfläche und bietet bereits vorinstallierte Programme.
 
 \subsubsection{Konfiguration}
 Nach der Installation der Software kann das Raspberry mit Maus und Tastatur an einen Monitor angeschlossen werden. Sobald das Raspberry mit Strom versorgt wird, startet der Boot-Vorgang.
@@ -23,7 +23,7 @@ Das Raspberry Pi ist in der Grundkofiguration sehr offen eingestellt, so hat der
 \subsubsection{Webserver}
 Auf dem Raspberry wird zusätzlich ein Webserver bereitgestellt, damit die Temperaturausgabe direkt im lokalen Netz betrachtet werden kann. Als Webserver wurde Apache2 installiert. Die Webseite selber wird dann im Stammverzeichnins /var/www/html gespeichert und ist über die IP oder, wenn auf dem DNS-Server eingetragen auch über den Namen erreichbar. Aus Sicherheitsgründen sollte die Webseite statisch gehalten sein und nur über das Intranet erreicht werden können, wenn nicht zusätzliche Sicherheitsmassnahmen getroffen werden. 
 
-\subsection{Softwaredesing}
+\subsection{Softwaredesign}
 
 Das Klassendiagramm (Abbildung \ref{fig:classdia}) bietet eine detaillierte Übersicht über die Softwarelösung. Im Zentrum steht dabei die Klasse \code{Controller}, welche für die Sensoren, das XML-Handling sowie der Ausgabe benötigter Meldungen zuständig ist. Die digitalen Sensor- Rohdaten werden von der Klasse \code{SPIDataHandler} ermittelt, und vom \code{RawDigitalValueServer} bereitgestellt.
 
@@ -39,7 +39,11 @@ Ebenfalls gibt es eine Logger-Klasse welche alle Meldungen mit einem Zeitstempel
 
 \subsection{Verwendete Hardware}
 
+<<<<<<< HEAD
 Die in Abbildung \ref{fig:plate} dargestellte Baseboard, des Herstellers Linkerkit, bietet eine universelle Plattform um verschiedene Aktoren anschliessen zu können. Für die verwendeten, analogen Temperatursensoren stehen vier Anschlüsse zur Verfügung, wobei jeder Anschluss zwei analoge Kanäle abdeckt. Weiter beitet das verwendete Board je einen UART- und $I^2C$ Anschluss, sowie zwölf GPIO- Eingänge. Die Speisespannung kann mittels einem Jumper auf 3.3V oder 5V gestellt werden. 
+=======
+Die in Abbildung \ref{fig:plate} dargestellte Baseboard, des Herstellers Linkerkit, bietet eine universelle Plattform um verschiedene Aktoren anschliessen zu können. Für die verwendeten, analogen Temperatursensoren stehen vier Anschlüsse zur Verfügung, wobei jeder Anschluss zwei analoge Kanäle abdeckt.
+>>>>>>> 0fba2e361bb582d6b96c44d7688b264fbd5f658c
 
 \begin{figure}[H]%Position festigen
 \centering
@@ -79,7 +83,7 @@ Die Sensoren werden mittels dem in Abbildung \ref{fig:cable} dargestellten Kabel
 
 \subsection{Webdarstellung}
 Die Umsetzung der Webseite wurde hauptsächlich mit JavaScript gemacht.
-Für die Anzeige der Temperatur wurde das JavaScript Plugin JustGage verwendet. Diese visuelle Darstellung ermöglicht es, auf einen Blick zu erkennen, wie hoch die aktuelle Umgebungstemperatur ist. Zudem werden die Sensoranzeigen farblich hervorgehoben, sobald die Temperaturen in einen kritischen Zustand geraten. 
+Für die Anzeige der Temperatur wurde das JavaScript Plug-In JustGage verwendet. Diese visuelle Darstellung ermöglicht es, auf einen Blick zu erkennen, wie hoch die aktuelle Umgebungstemperatur ist. Zudem werden die Sensoranzeigen farblich hervorgehoben, sobald die Temperaturen in einen kritischen Zustand geraten. 
 Die Werte werden von der Software als XML-File geliefert, in welchem die Temperaturwerte sowie die ID pro Sensor gespeichert sind. Die Webseite wurde so konzipiert, dass dieses XML-File in einem regelmässigen Zyklus gelesen und die Temperaturwerte entsprechend auf der Seite ausgegeben werden. Dieser Punkt gehört mitunter zu einer der Wichtigsten, denn die korrekte Anzeige der Temperaturwerte ist notwendig, um die Kontrolle jederzeit zu gewährleisten. Diese Anforderung kann mit \code {setInterval(function, 1000)} umgesetzt werden. Mit dieser Funktion werden die Temperaturwerte jede Sekunde oder nach Belieben neu vom XML-File gelesen.
 Zusätzlich bringt JustGage eine Funktion mit sich, welche es ermöglicht über \code {refresh(val)} dem Sensor die neuen Werte zu übergeben. Wird ein Sensor angeschlossen, so sollte dieser zeitnah in das XML geschrieben und mittels \code {setInterval(function, 1000)} auf der Webseite ausgegeben werden. Auf der Webseite werden alle 8 Sensoren dargestellt. Wenn die Sensoren effektive an den GPIO's angeschlossen sind,  werden diese auf der Webseite als \grqq{}aktiv\glqq{} angezeigt. Im Gegenzug ist der Sensor \grqq{}inaktiv\glqq{} sobald dieser von der Basisplatine entfernt wird.\\
 In der Funktion \code {readXMLNode(xml)} werden die Werte via \code{getEelemtsByTagName} aus dem XML gelesen und in ein Array gefüllt. Ist im XML der Sensor nicht vorhanden, so ist dieser entsprechend nicht angeschlossen und der Wert im Array wird mit 0 befüllt.\\
