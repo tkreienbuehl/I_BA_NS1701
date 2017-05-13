@@ -88,3 +88,17 @@ void XMLHandler::setAlertOccured() {
 	attr.set_value(true);
 	m_xmlDocument.save_file("/var/www/html/sensordata.xml");
 }
+
+std::string XMLHandler::getEmailSourceAddress() {
+	pugi::xml_node node = m_xmlDocument.first_child();
+	node = node.find_child_by_attribute("id", "EmailSettings");
+	node = node.find_child_by_attribute("id", "SourceAddress");
+	return node.attribute("value").value();
+}
+
+std::string XMLHandler::getEMailDestinationAddress() {
+	pugi::xml_node node = m_xmlDocument.first_child();
+	node = node.find_child_by_attribute("id", "EmailSettings");
+	node = node.find_child_by_attribute("id", "DestinationAddress");
+	return node.attribute("value").value();
+}

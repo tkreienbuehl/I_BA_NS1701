@@ -17,8 +17,8 @@ Controller::Controller()
 	, m_MailSender(new EMailSender)
 	, m_LogMsgWriter(LogMsgWriter::getInstance()) {
 	pthread_mutex_init(&m_mutex, NULL);
-	m_MailSender->setSourceAddress("Temeraturwaechter@enterpriselab.ch");
-	m_MailSender->setDestinationAddress("tkreienbuehl@bluewin.ch");
+	m_MailSender->setSourceAddress(m_xmlHandler->getEmailSourceAddress());
+	m_MailSender->setDestinationAddress(m_xmlHandler->getEMailDestinationAddress());
 	m_MailSender->setHeaderText("TemperaturWächter online");
 	m_MailSender->setMessageText("Der Temperaturwächter wurde gestartet");
 	if (m_MailSender->sendEmail() == 0 ) {
@@ -41,7 +41,7 @@ Controller::~Controller() {
 void Controller::startController() {
 	m_running = true;
 	while (m_running) {
-		usleep(1000 * 1000 * 10);
+		usleep(1000);
 	}
 }
 

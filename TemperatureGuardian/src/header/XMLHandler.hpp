@@ -55,6 +55,10 @@ public:
 	 */
 	void setAlertOccured();
 
+	std::string getEmailSourceAddress();
+
+	std::string getEMailDestinationAddress();
+
 private:
 
 	pugi::xml_document m_xmlDocument;
