@@ -10,17 +10,19 @@ Die 32GB grosse SD-Karte welche man für das Raspberry benötigt, wird zu Beginn
 
 \subsubsection{Konfiguration}
 Nach der Installation der Software kann das Raspberry mit Maus und Tastatur an einen Monitor angeschlossen werden. Sobald das Raspberry mit Strom versorgt wird, startet der Boot-Vorgang.
-Nun müssen alle wichtigen Grundkonfigurationen, wie folgt, vorgenommen werden.
+Nun müssen alle wichtigen Grundkonfigurationen vorgenommen werden, auf dem vorliegenden Gerät folgendermassen umgesetzt:
+\begin{itemize}
+\item Tastatur: Deutsch(Schweiz)
+\item Username: pi
+\item Passwort: temperatur2017
+\item Inteface SPI: enable
+\item Netzwerk: aktuell ist die IP-Adresse fix mit 10.25.0.7 konfiguriert. Die IP sollte auf dem Raspberry Pi immer gleich bleibend sein, um das Gerät mit ssh erreichen zu können. Dies kann auch über eine Reservierung im DHCP Umfeld erreicht werden.
+\end{itemize}
 
-Tastatur: Deutsch(Schweiz)\\
-Username: pi\\
-Passwort: temperatur2017\\
-Inteface SPI: enable\\
-Netzwerk: aktuell ist die IP-Adresse fix mit 10.25.0.7 konfiguriert
+Die Sicherheitsrichtlinien auf dem Raspberry Pi sind tief, so ist der Standarduser pi Administrator und kann root Befehle ohne eingabe eines Passwortes ausführen. Dies sollte in einer sensitiven Umgebung entsprechend angepasst werden, dies ist allerdings ausserhalb des Scopes dieser Arbeit.
 
 \subsubsection{Webserver}
 Auf dem Raspberry wird zusätzlich ein Webserver bereitgestellt, damit die Temperaturausgabe direkt im lokalen Netz betrachtet werden kann. Als Webserver wurde Apache2 installiert.
-
 
 \subsection{Softwaredesign}
 
@@ -34,7 +36,14 @@ Das Klassendiagramm (Abbildung \ref{fig:classdia}) bietet eine detaillierte Übe
 \end{figure}
 
 Die Klasse \code{SensorWatchDog} ist dafür zuständig, die angeschlossenen Sensoren zu prüfen, wird ein neuer Sensor angeschlossen, so wird dies dem Controller mittels der Methode \code{reportSensorUp} bekannt gegeben. Der Controller erzeugt dann einen neuen \code{SensorHandler} und startet einen Thread. Die Klasse \code{SensorHandler} überprüft und berechnet nun laufend die Temperaturwerte und rapportiert diese über den \code{SensorObserver} dem \code{Controller}. Der Wert des Sensors wird schlussendlich mittels \code{XMLHandler} in das File sensordata.xml geschrieben. Dieses File wird für die Ausgabe auf der Webseite verwendet.
-Ebenfalls gibt es eine Logger-Klasse, welche alle Meldungen mit einem Zeitstempel ausgibt. Die Ausgabe erfolgt auf der Konsole und kann beim Aufruf des Programmes entsprechend in ein Logfile umgelenkt werden. So kann genau überprüft werden, wann ein Sensor angeschlossen oder entfernt sowie ob zum richtigen Zeitpunkt ein Mail versendet worden ist. 
+Ebenfalls gibt es eine Logger-Klasse, welche alle Meldungen mit einem Zeitstempel ausgibt. Die Ausgabe erfolgt auf der Konsole und kann beim Aufruf des Programmes entsprechend in ein Logfile umgelenkt werden. So kann genau überprüft werden, wann ein Sensor angeschlossen oder entfernt sowie ob zum richtigen Zeitpunkt ein Mail versendet worden ist.
+
+\subsubsection{Konfiguration und Sensorwerte}
+Die XML Datei \code{sensordata.xml} ist sowohl Konfigurations- wie auch Ausgabedatei für die Sensorwerte.
+
+\lstinputlisting[language=Xml]{04_Versuch/sensordata.xml}
+
+Unter \code{SensorValues} ist ersichtlich, dass aktuell drei Sensoren angeschlossen sind und funktionieren, wobei bei einem abbruch des Programms die Werte nicht zurückgesetzt werden. Unter \code{LockedSensors} können alle Sensoren eingetragen werden, die nicht aktiv sein dürfen, da sie sich auf jenen Positionen befinden, die nur über das, in Kapitel 4.3 beschriebene, Spezialkabel angeschlossen werden können. Das Sperren der Sensoren ist notwendig, da sonst Störsignale auftreten. Unter \code{EMailSettings} lassen sich Ziel- sowie Absenderadressen einstellen. Des letzte Bereich \code{Setting} ist zum Setzen des Temperaturlimits reserviert. Zudem befindet sich dort auch der Alarmstatus, welcher von der Software auf 1 gestellt wird, sobald eine E-Mail-Nachricht versendet wurde. Dieser Wert kann somit auch durch  ein Monitoringsystem überwacht werden, sollte beispielsweise der E-Mail-Verkehr ausfallen. Solange der Alarmzustand auf 1 steht werden keine weiteren Nachrichten versendet. Durch Zurücksetzen dieses Wertes auf 0 wird das System wieder in den Normalzustand versetzt. 
 
 \subsection{Verwendete Hardware}
 

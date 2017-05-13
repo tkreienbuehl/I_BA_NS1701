@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<header>
+	<SensorValues id="SensorValues">
+		<Sensor id="0" value="22" />
+		<Sensor id="2" value="22" />
+		<Sensor id="4" value="20" />
+	</SensorValues>
+	<LockedSensors id="LockedSensors">
+		<Sensor id="1" />
+		<Sensor id="3" />
+		<Sensor id="5" />
+		<Sensor id="7" />
+	</LockedSensors>
+	<Email id="EmailSettings">
+		<Setting id="SourceAddress" value="TemeratureGuardian@enterpriselab.ch" />
+		<Setting id="DestinationAddress" value="test@example.ch" />
+	</Email>
+	<Settings id="Settings">
+		<Setting id="TemperatureLimit" value="40" />
+		<Setting id="AlertState" value="0" />
+	</Settings>
+</header>
