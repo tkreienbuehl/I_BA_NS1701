@@ -6,9 +6,9 @@
  */
 #include "../header/XMLHandler.hpp"
 
-XMLHandler::XMLHandler() {
-
-	pugi::xml_parse_result result = m_xmlDocument.load_file("/var/www/html/sensordata.xml");
+XMLHandler::XMLHandler()
+	: m_FilePath("/var/www/html/sensordata.xml") {
+	pugi::xml_parse_result result = m_xmlDocument.load_file(m_FilePath.c_str());
 	if (!result) {
 		std::cout << "Load result: " << result.description() << std::endl;
 	}
@@ -17,7 +17,7 @@ XMLHandler::XMLHandler() {
 		if (!node.find_child_by_attribute("id", "SensorValues")) {
 			pugi::xml_node child = node.append_child("SensorValues");
 			child.append_attribute("id") = "SensorValues";
-			m_xmlDocument.save_file("sensordata.xml");
+			m_xmlDocument.save_file(m_FilePath.c_str());
 		}
 	}
 }
@@ -34,13 +34,13 @@ void XMLHandler::writeSensorData(uint8_t sensorNr, int value) {
 		pugi::xml_node child = node.append_child("Sensor");
 		child.append_attribute("id") = sensorNr;
 		child.append_attribute("value") = value;
-		m_xmlDocument.save_file("/var/www/html/sensordata.xml");
+		m_xmlDocument.save_file(m_FilePath.c_str());
 	}
 	else {
 		pugi::xml_node child = node.find_child_by_attribute("id", str);
 		pugi::xml_attribute attr = child.attribute("value");
 		attr.set_value(value);
-		m_xmlDocument.save_file("sensordata.xml");
+		m_xmlDocument.save_file(m_FilePath.c_str());
 	}
 }
 
@@ -51,7 +51,7 @@ void XMLHandler::removeSensor(uint8_t sensorNr) {
 	sprintf(str, "%i", sensorNr);
 	if (node.find_child_by_attribute("id", str)) {
 		node.remove_child(node.find_child_by_attribute("id", str));
-		m_xmlDocument.save_file("/var/www/html/sensordata.xml");
+		m_xmlDocument.save_file(m_FilePath.c_str());
 	}
 }
 
@@ -86,7 +86,7 @@ void XMLHandler::setAlertOccured() {
 	node = node.find_child_by_attribute("id", "AlertState");
 	pugi::xml_attribute attr = node.attribute("value");
 	attr.set_value(true);
-	m_xmlDocument.save_file("/var/www/html/sensordata.xml");
+	m_xmlDocument.save_file(m_FilePath.c_str());
 }
 
 std::string XMLHandler::getEmailSourceAddress() {

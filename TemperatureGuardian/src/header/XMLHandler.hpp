@@ -62,6 +62,7 @@ public:
 private:
 
 	pugi::xml_document m_xmlDocument;
+	std::string m_FilePath;
 
 };
 
