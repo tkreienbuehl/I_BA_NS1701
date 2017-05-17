@@ -87,8 +87,7 @@ void Controller::addSensor(uint8_t sensorPos) {
 	pthread_create(&m_threadsMap.at(sensorPos), NULL, SensorHandler::startSensorHandler, sensor);
 	char buf[120];
 	sprintf(buf,"New sensor found and activated. Sensor ID = %u", sensorPos);
-	std::string msg = buf;
-	m_LogMsgWriter->writeLogMsg(msg);
+	m_LogMsgWriter->writeLogMsg(buf);
 }
 
 void Controller::removeSensor(uint8_t sensorID) {
@@ -102,8 +101,7 @@ void Controller::removeSensor(uint8_t sensorID) {
 		delete sensor;
 		char buf[120];
 		sprintf(buf,"Sensor %u stopped working, removed", sensorID);
-		std::string msg = buf;
-		m_LogMsgWriter->writeLogMsg(msg);
+		m_LogMsgWriter->writeLogMsg(buf);
 	}
 }
 
